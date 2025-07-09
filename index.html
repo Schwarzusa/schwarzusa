@@ -32,6 +32,13 @@
     <footer class="relative z-10 text-sm text-gray-500 mt-10 text-center p-4">
       &copy; <span id="year"></span> Schwarz USA. All rights reserved.
     </footer>
+<script>
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      window.location.href = 'home.html';
+    }
+  });
+</script>
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
