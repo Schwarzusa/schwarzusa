@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schwarz USA - Products</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      background-image: url('assets/bg-pattern.png');
+      background-repeat: repeat;
+      background-size: auto;
+      background-position: top left;
+    }
+    .nav-active {
+      border-bottom: 4px solid #ff4f00; /* international orange */
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+  <!-- Navigation Bar -->
+  <header class="w-full bg-black bg-opacity-80 text-sm px-6 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <a href="index.html" class="text-xl font-bold hover:underline">Schwarz USA</a>
+    <nav class="space-x-6">
+      <a href="products.html" class="hover:underline nav-active">Products</a>
+      <a href="designs.html" class="hover:underline">Designs</a>
+      <a href="custom.html" class="hover:underline">Custom</a>
+      <a href="technologies.html" class="hover:underline">Technologies</a>
+    </nav>
+    <div class="space-x-4">
+      <button onclick="toggleMenu('profileMenu')" class="hover:text-gray-300">👤</button>
+      <button onclick="toggleMenu('cartMenu')" class="hover:text-gray-300">🛒</button>
+    </div>
+  </header>
+
+  <!-- Menus -->
+  <div id="profileMenu" class="hidden absolute right-6 top-16 bg-gray-800 p-4 rounded shadow-lg z-50">
+    <p>Profile menu content</p>
+  </div>
+  <div id="cartMenu" class="hidden absolute right-16 top-16 bg-gray-800 p-4 rounded shadow-lg z-50">
+    <p>Cart menu content</p>
+  </div>
+
+  <!-- Page content -->
+  <main class="pt-28 px-6">
+    <h1 class="text-3xl font-semibold">Our Products</h1>
+    <p class="mt-4 text-gray-300">Explore our range of metal cards and accessories.</p>
+  </main>
+
+  <script>
+    function toggleMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      const isHidden = menu.classList.contains('hidden');
+      document.getElementById('profileMenu').classList.add('hidden');
+      document.getElementById('cartMenu').classList.add('hidden');
+      if (isHidden) menu.classList.remove('hidden');
+    }
+
+    // Redirect to home page on Enter key press
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        window.location.href = 'home.html';
+      }
+    });
+  </script>
+</body>
+</html>
