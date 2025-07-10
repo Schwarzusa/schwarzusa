@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schwarz USA - Products</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
   <style>
     body {
       background-color: #0d0d0d;
@@ -35,28 +36,49 @@
   </header>
 
   <!-- Menus -->
-  <div id="profileMenu" class="hidden absolute right-6 top-16 bg-gray-800 p-4 rounded shadow-lg z-50">
-    <p>Profile menu content</p>
+  <div id="profileMenu" class="hidden absolute right-6 top-16 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm">
+    <form id="profileForm" class="space-y-2 text-black">
+      <input id="shipping" class="w-full px-2 py-1 rounded" placeholder="Shipping Address" />
+      <input id="billing" class="w-full px-2 py-1 rounded" placeholder="Billing Address" />
+      <input id="payment" class="w-full px-2 py-1 rounded" placeholder="Payment Info" />
+      <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Profile</button>
+    </form>
+    <div id="profileInfo" class="hidden text-white text-left mt-2">
+      <p><strong>Shipping:</strong> <span id="displayShipping"></span></p>
+      <p><strong>Billing:</strong> <span id="displayBilling"></span></p>
+      <p><strong>Payment:</strong> <span id="displayPayment"></span></p>
+      <p class="mt-2 font-semibold">Orders:</p>
+      <ul id="ordersList" class="list-disc list-inside"></ul>
+      <button onclick="editProfile()" class="bg-blue-500 text-white px-2 py-1 rounded mt-2 w-full">Edit</button>
+    </div>
   </div>
-  <div id="cartMenu" class="hidden absolute right-16 top-16 bg-gray-800 p-4 rounded shadow-lg z-50">
-    <p>Cart menu content</p>
+  <div id="cartMenu" class="hidden absolute right-16 top-16 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
+    <p class="font-semibold">Cart</p>
+    <ul id="cartItems" class="list-disc list-inside mb-2"></ul>
+    <button onclick="checkout()" class="bg-green-500 text-white px-2 py-1 rounded w-full">Checkout</button>
   </div>
 
   <!-- Page content -->
   <main class="pt-28 px-6">
     <h1 class="text-3xl font-semibold">Our Products</h1>
     <p class="mt-4 text-gray-300">Explore our range of metal cards and accessories.</p>
+    <ul class="mt-6 grid gap-4 md:grid-cols-2 max-w-xl mx-auto">
+      <li class="bg-gray-700 p-4 rounded flex justify-between items-center">
+        <span>Metal Business Card</span>
+        <button onclick="addToCart('Metal Business Card')" class="bg-yellow-500 text-black px-2 py-1 rounded">Add to Cart</button>
+      </li>
+      <li class="bg-gray-700 p-4 rounded flex justify-between items-center">
+        <span>Engraved Dog Tag</span>
+        <button onclick="addToCart('Engraved Dog Tag')" class="bg-yellow-500 text-black px-2 py-1 rounded">Add to Cart</button>
+      </li>
+      <li class="bg-gray-700 p-4 rounded flex justify-between items-center">
+        <span>Custom Metal Card</span>
+        <button onclick="addToCart('Custom Metal Card')" class="bg-yellow-500 text-black px-2 py-1 rounded">Add to Cart</button>
+      </li>
+    </ul>
   </main>
 
   <script>
-    function toggleMenu(menuId) {
-      const menu = document.getElementById(menuId);
-      const isHidden = menu.classList.contains('hidden');
-      document.getElementById('profileMenu').classList.add('hidden');
-      document.getElementById('cartMenu').classList.add('hidden');
-      if (isHidden) menu.classList.remove('hidden');
-    }
-
     // Redirect to home page on Enter key press
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
