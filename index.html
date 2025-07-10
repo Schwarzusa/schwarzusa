@@ -34,7 +34,8 @@
     </footer>
 <script>
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
+    const tag = e.target.tagName.toLowerCase();
+    if (e.key === 'Enter' && tag !== 'input' && tag !== 'textarea') {
       window.location.href = 'home.html';
     }
   });
