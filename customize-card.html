@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schwarz USA - Customize Card</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/app.js"></script>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      background-image: url('assets/bg-pattern.png');
+      background-repeat: repeat;
+      background-size: auto;
+      background-position: top left;
+    }
+    .nav-active {
+      border-bottom: 4px solid #ff4f00; /* international orange */
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+  <!-- Navigation Bar -->
+  <header class="w-full bg-black bg-opacity-80 text-sm px-6 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <a href="index.html" class="text-xl font-bold hover:underline">Schwarz USA</a>
+    <nav class="space-x-6">
+      <a href="products.html" class="hover:underline">Products</a>
+      <a href="designs.html" class="hover:underline">Designs</a>
+      <a href="customize-card.html" class="hover:underline nav-active">Customize Card</a>
+      <a href="technologies.html" class="hover:underline">Technologies</a>
+    </nav>
+    <div class="space-x-4 relative">
+      <button id="profileBtn" onmouseenter="showMenu('profileMenu')" class="hover:text-gray-300">👤</button>
+      <button id="cartBtn" onmouseenter="showMenu('cartMenu')" class="hover:text-gray-300">🛒</button>
+      <div id="profileMenu" onmouseleave="hideMenu('profileMenu')" class="hidden absolute right-0 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
+        <div id="profileUnsigned">
+          <a href="sign-in.html" class="block hover:underline">Sign In</a>
+        </div>
+        <div id="profileSigned" class="hidden space-y-2">
+          <a href="account.html" class="block hover:underline">Account</a>
+          <a href="orders.html" class="block hover:underline">Orders</a>
+          <button id="signOutBtn" class="text-left hover:underline w-full">Sign Out</button>
+        </div>
+      </div>
+      <div id="cartMenu" onmouseleave="hideMenu('cartMenu')" class="hidden absolute right-12 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
+        <p class="font-semibold">Cart</p>
+        <ul id="cartItems" class="list-disc list-inside mb-2"></ul>
+        <button onclick="checkout()" class="bg-green-500 text-white px-2 py-1 rounded w-full">Checkout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page content -->
+  <main class="pt-28 px-6 text-center flex flex-col items-center space-y-6">
+    <h1 class="text-3xl font-semibold">Customize Your Card</h1>
+    <p class="text-gray-300">Apply different designs, borders and colors.</p>
+    <div class="flex flex-col items-center">
+      <button onclick="nextBorder()" class="text-2xl mb-2">▲</button>
+      <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4">
+        <span id="designNumber" class="text-5xl"></span>
+        <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
+      </div>
+      <button onclick="prevBorder()" class="text-2xl mt-2">▼</button>
+    </div>
+    <div class="flex items-center space-x-6">
+      <button onclick="prevDesign()" class="text-2xl">◀</button>
+      <span class="text-gray-400">Design</span>
+      <button onclick="nextDesign()" class="text-2xl">▶</button>
+    </div>
+    <div class="flex space-x-6">
+      <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
+      <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
+      <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-yellow-500 border border-yellow-200 cursor-pointer transition-transform" onclick="selectColor('gold')"></div>
+    </div>
+    <button class="bg-green-600 px-4 py-2 rounded text-white mt-4">Order</button>
+  </main>
+  <script>
+    const borderLetters = 'ABCDEFGHIJ'.split('');
+    const designNumbers = [1,2,3,4,5];
+    let borderIndex = 0;
+    let designIndex = 0;
+    let selectedColor = 'black';
+    function updatePreview() {
+      document.getElementById('cardPreview').style.backgroundColor = selectedColor;
+      document.getElementById('designNumber').textContent = designNumbers[designIndex];
+      document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
+    }
+    function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
+    function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
+    function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
+    function prevDesign() { designIndex = (designIndex - 1 + designNumbers.length) % designNumbers.length; updatePreview(); }
+    function selectColor(color) {
+      selectedColor = color === 'gold' ? '#d4af37' : color;
+      document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
+      const el = document.getElementById('color-' + color);
+      if (el) { el.classList.add('ring-4','scale-110'); }
+      updatePreview();
+    }
+    document.addEventListener('DOMContentLoaded', () => { selectColor('black'); updatePreview(); });
+  </script>
+</body>
+</html>
