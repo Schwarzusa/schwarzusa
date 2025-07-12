@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #0d0d0d;
+      background-color: #1a1a1a;
       background-image: url('assets/bg-pattern.png');
       background-repeat: repeat;
       background-size: auto;
@@ -20,7 +20,7 @@
 </head>
 <body class="text-white font-sans">
   <!-- Navigation Bar -->
-   <header class="relative w-full bg-black bg-opacity-80 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
+   <header class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
     <a href="index.html" class="text-xl font-bold hover:underline">Schwarz USA</a>
      <nav class="absolute left-1/2 transform -translate-x-1/2 space-x-6">
       <a href="products.html" class="hover:underline">Products</a>
@@ -37,7 +37,9 @@
       <div class="flex flex-col items-center space-y-4 md:w-1/2">
         <button onclick="nextBorder()" class="text-3xl">&#x2227;</button>
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
-          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden" />
+          <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl">&#x2329;</button>
+          <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl">&#x232A;</button>
+          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover" />
           <span id="designNumber" class="text-5xl"></span>
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
@@ -54,15 +56,21 @@
           <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
           <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-yellow-500 border border-yellow-200 cursor-pointer transition-transform" onclick="selectColor('gold')"></div>
         </div>
-        <button class="order-btn bg-green-600 px-4 py-2 rounded text-white" data-code="">Order</button>
+        <button class="order-btn bg-[#d4af37] hover:bg-[#e0c94a] text-black px-4 py-2 rounded" data-code="">Order</button>
       </div>
     </div>
   </main>
   <script>
-    const borderLetters = 'ABCDEFGHIJ'.split('');
-    const designNumbers = [1,2,3,4,5];
-    let borderIndex = 0;
-    let designIndex = 0;
+      const borderLetters = 'ABCDEFGHIJ'.split('');
+      const designs = [
+        { id: 1, image: 'assets/Placeholder_card.png' },
+        { id: 2, image: 'assets/Placeholder_card.png' },
+        { id: 3, image: 'assets/Placeholder_card.png' },
+        { id: 4, image: 'assets/Placeholder_card.png' },
+        { id: 5, image: 'assets/Placeholder_card.png' }
+      ];
+      let borderIndex = 0;
+      let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
     const designColorMap = {
@@ -75,25 +83,25 @@
         const designImageEl = document.getElementById('designImage');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
-        cardPreviewEl.style.borderColor = borderIndex === 0 ? "transparent" : "white";
-        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
+        cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
 
-        if (designNumbers[designIndex] === 1) {
-          designImageEl.src = 'assets/Placeholder_card.png';
-          designImageEl.classList.remove('hidden');
-          designNumberEl.textContent = '';
-        } else {
-          designImageEl.classList.add('hidden');
-          designNumberEl.textContent = designNumbers[designIndex];
-        }
+        const design = designs[designIndex];
+        designImageEl.src = design.image;
+        designNumberEl.textContent = design.id;
+
+        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
+
         const orderBtn = document.querySelector('.order-btn');
-        if (orderBtn) orderBtn.dataset.code = designNumbers[designIndex] + borderLetters[borderIndex];
+        if (orderBtn) {
+          const colorCode = selectedColorName.charAt(0).toUpperCase() + selectedColorName.slice(1);
+          orderBtn.dataset.code = colorCode + design.id + borderLetters[borderIndex];
+        }
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
     function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
-    function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
-    function prevDesign() { designIndex = (designIndex - 1 + designNumbers.length) % designNumbers.length; updatePreview(); }
+    function nextDesign() { designIndex = (designIndex + 1) % designs.length; updatePreview(); }
+    function prevDesign() { designIndex = (designIndex - 1 + designs.length) % designs.length; updatePreview(); }
     function selectColor(color) {
       selectedColorName = color;
       selectedColor = color === 'gold' ? '#d4af37' : color;
@@ -107,7 +115,7 @@
   <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
     <div class="bg-white text-black p-6 rounded w-full max-w-md">
       <div id="modalInfo">
-        <p class="mb-4">Here’s how it works:<br>1. You submit your order to orders@schwarzusa.us in the order form.<br>2. We send you a box to send us your old card.<br>3. We create and send your new card along with what is left of the old card (if requested).</p>
+        <p class="mb-4">Here’s how it works:<br>1. You submit your order to orders@schwarzusa.us in the order form.<br>2. We send you a box to send us your old card.<br>3. We create and send your new card along with what is left of the old card (if requested).<br><strong>NOTE:</strong> To transfer the chip to the new card, we partially submerge your old card in acetone to dissolve the plastic around the chip. Your old card will be unusable after this.</p>
         <button id="acknowledgeBtn" class="bg-gray-800 text-white px-4 py-2 rounded w-full">Acknowledge</button>
       </div>
       <form id="orderForm" class="hidden mt-4 space-y-4">
@@ -116,7 +124,7 @@
         <input type="text" name="address" placeholder="Address" required class="w-full border p-2" />
         <input type="text" name="design" id="designCode" readonly class="w-full border p-2" />
         <textarea name="notes" placeholder="Additional notes" class="w-full border p-2"></textarea>
-        <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded w-full">Submit</button>
+        <button type="submit" class="bg-[#d4af37] hover:bg-[#e0c94a] text-black px-4 py-2 rounded w-full">Submit</button>
       </form>
     </div>
   </div>
