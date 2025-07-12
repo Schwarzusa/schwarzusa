@@ -47,44 +47,234 @@
     </div>
   </header>
 
-  <main class="pt-28 px-6">
+  <main class="pt-28 px-6 space-y-8 max-w-xl mx-auto">
     <h1 class="text-3xl font-semibold mb-4">Account Details</h1>
-    <form id="profileForm" class="space-y-3 max-w-md mx-auto text-black">
-      <input id="shipping" class="w-full px-2 py-1 rounded" placeholder="Shipping Address" />
-      <input id="billing" class="w-full px-2 py-1 rounded" placeholder="Billing Address" />
-      <input id="payment" class="w-full px-2 py-1 rounded" placeholder="Payment Info" />
-      <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Profile</button>
-    </form>
-    <div class="max-w-md mx-auto mt-6">
-      <h2 class="text-xl font-semibold mb-2">Orders</h2>
-      <ul id="ordersList" class="list-disc list-inside"></ul>
-    </div>
+    <section id="shippingSection" class="bg-gray-800 p-4 rounded">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Shipping Addresses</h2>
+        <button id="addShippingBtn" class="text-sm underline">Add Shipping Address</button>
+      </div>
+      <div id="shippingList" class="space-y-3"></div>
+      <div id="shippingFormContainer" class="hidden mt-4">
+        <form id="shippingForm" class="space-y-2 text-black">
+          <input id="shipName" placeholder="Full Name" required class="w-full px-2 py-1 rounded" />
+          <input id="shipAddr1" placeholder="Address Line 1" required class="w-full px-2 py-1 rounded" />
+          <input id="shipAddr2" placeholder="Address Line 2" class="w-full px-2 py-1 rounded" />
+          <div class="flex space-x-2">
+            <input id="shipCity" placeholder="City" class="w-1/2 px-2 py-1 rounded" />
+            <input id="shipState" placeholder="State" class="w-1/4 px-2 py-1 rounded" />
+            <input id="shipZip" placeholder="ZIP" class="w-1/4 px-2 py-1 rounded" />
+          </div>
+          <input id="shipPhone" placeholder="Phone Number" class="w-full px-2 py-1 rounded" />
+          <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Address</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="paymentSection" class="bg-gray-800 p-4 rounded">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Payment Methods</h2>
+        <button id="addPaymentBtn" class="text-sm underline">Add Payment Information</button>
+      </div>
+      <div id="paymentList" class="space-y-3"></div>
+      <div id="paymentFormContainer" class="hidden mt-4">
+        <form id="paymentForm" class="space-y-2 text-black">
+          <input id="payNickname" placeholder="Card Nickname" class="w-full px-2 py-1 rounded" />
+          <input id="payHolder" placeholder="Cardholder Name" required class="w-full px-2 py-1 rounded" />
+          <input id="payNumber" placeholder="Card Number" required class="w-full px-2 py-1 rounded" />
+          <input id="payExp" placeholder="Expiration Date" required class="w-full px-2 py-1 rounded" />
+          <input id="payCCV" placeholder="CCV" required class="w-full px-2 py-1 rounded" />
+          <input id="billAddr1" placeholder="Billing Address Line 1" class="w-full px-2 py-1 rounded" />
+          <input id="billAddr2" placeholder="Billing Address Line 2" class="w-full px-2 py-1 rounded" />
+          <div class="flex space-x-2">
+            <input id="billCity" placeholder="City" class="w-1/2 px-2 py-1 rounded" />
+            <input id="billState" placeholder="State" class="w-1/4 px-2 py-1 rounded" />
+            <input id="billZip" placeholder="ZIP" class="w-1/4 px-2 py-1 rounded" />
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Payment</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="contactSection" class="bg-gray-800 p-4 rounded">
+      <h2 class="text-xl font-semibold mb-2">Contact Preferences</h2>
+      <form id="contactForm" class="space-y-2 text-black">
+        <input id="contactEmail" type="email" placeholder="Email" class="w-full px-2 py-1 rounded" />
+        <input id="contactPhone" placeholder="Phone Number" class="w-full px-2 py-1 rounded" />
+        <div class="space-y-1 text-white">
+          <label><input id="dealsOpt" type="checkbox" class="mr-1">Deals & Promotions</label><br/>
+          <label><input id="statusOpt" type="checkbox" class="mr-1">Order Status Updates</label><br/>
+          <label><input id="marketingOpt" type="checkbox" class="mr-1">Marketing Emails</label>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Contact Preferences</button>
+      </form>
+    </section>
   </main>
 
   <script>
+    let editShipIndex = -1;
+    let editPayIndex = -1;
+
+    function renderShipping() {
+      const p = loadProfile();
+      const list = document.getElementById('shippingList');
+      list.innerHTML = '';
+      if (p.shipping.length === 0) {
+        list.innerHTML = '<p>No shipping addresses.</p>';
+      } else {
+        p.shipping.forEach((addr, i) => {
+          const div = document.createElement('div');
+          div.className = 'bg-gray-700 p-3 rounded relative';
+          const btn = document.createElement('button');
+          btn.textContent = 'Edit';
+          btn.className = 'absolute top-1 right-2 text-sm underline';
+          btn.addEventListener('click', () => showShippingForm(i));
+          div.appendChild(btn);
+          const pEl = document.createElement('p');
+          pEl.innerHTML = `${addr.name}<br>${addr.addr1}<br>${addr.addr2 ? addr.addr2 + '<br>' : ''}${addr.city}, ${addr.state} ${addr.zip}<br>${addr.phone}`;
+          div.appendChild(pEl);
+          list.appendChild(div);
+        });
+      }
+    }
+
+    function showShippingForm(idx) {
+      editShipIndex = idx ?? -1;
+      const formDiv = document.getElementById('shippingFormContainer');
+      formDiv.classList.remove('hidden');
+      const p = loadProfile();
+      const addr = idx >= 0 ? p.shipping[idx] : { name:'', addr1:'', addr2:'', city:'', state:'', zip:'', phone:'' };
+      document.getElementById('shipName').value = addr.name || '';
+      document.getElementById('shipAddr1').value = addr.addr1 || '';
+      document.getElementById('shipAddr2').value = addr.addr2 || '';
+      document.getElementById('shipCity').value = addr.city || '';
+      document.getElementById('shipState').value = addr.state || '';
+      document.getElementById('shipZip').value = addr.zip || '';
+      document.getElementById('shipPhone').value = addr.phone || '';
+    }
+
+    function saveShipping(e) {
+      e.preventDefault();
+      const addr = {
+        name: document.getElementById('shipName').value,
+        addr1: document.getElementById('shipAddr1').value,
+        addr2: document.getElementById('shipAddr2').value,
+        city: document.getElementById('shipCity').value,
+        state: document.getElementById('shipState').value,
+        zip: document.getElementById('shipZip').value,
+        phone: document.getElementById('shipPhone').value
+      };
+      const p = loadProfile();
+      if (editShipIndex >= 0) {
+        p.shipping[editShipIndex] = addr;
+      } else {
+        p.shipping.push(addr);
+      }
+      saveProfile(p);
+      document.getElementById('shippingFormContainer').classList.add('hidden');
+      renderShipping();
+    }
+
+    function renderPayment() {
+      const p = loadProfile();
+      const list = document.getElementById('paymentList');
+      list.innerHTML = '';
+      if (p.payment.length === 0) {
+        list.innerHTML = '<p>No payment methods.</p>';
+      } else {
+        p.payment.forEach((pay, i) => {
+          const div = document.createElement('div');
+          div.className = 'bg-gray-700 p-3 rounded relative';
+          const btn = document.createElement('button');
+          btn.textContent = 'Edit';
+          btn.className = 'absolute top-1 right-2 text-sm underline';
+          btn.addEventListener('click', () => showPaymentForm(i));
+          div.appendChild(btn);
+          const pEl = document.createElement('p');
+          pEl.innerHTML = `${pay.nickname ? pay.nickname + ' - ' : ''}${pay.number}<br>${pay.holder}<br>Exp: ${pay.exp}`;
+          div.appendChild(pEl);
+          list.appendChild(div);
+        });
+      }
+    }
+
+    function showPaymentForm(idx) {
+      editPayIndex = idx ?? -1;
+      const formDiv = document.getElementById('paymentFormContainer');
+      formDiv.classList.remove('hidden');
+      const p = loadProfile();
+      const pay = idx >= 0 ? p.payment[idx] : { nickname:'', holder:'', number:'', exp:'', ccv:'', bill1:'', bill2:'', city:'', state:'', zip:'' };
+      document.getElementById('payNickname').value = pay.nickname || '';
+      document.getElementById('payHolder').value = pay.holder || '';
+      document.getElementById('payNumber').value = pay.number || '';
+      document.getElementById('payExp').value = pay.exp || '';
+      document.getElementById('payCCV').value = pay.ccv || '';
+      document.getElementById('billAddr1').value = pay.bill1 || '';
+      document.getElementById('billAddr2').value = pay.bill2 || '';
+      document.getElementById('billCity').value = pay.city || '';
+      document.getElementById('billState').value = pay.state || '';
+      document.getElementById('billZip').value = pay.zip || '';
+    }
+
+    function savePayment(e) {
+      e.preventDefault();
+      const pay = {
+        nickname: document.getElementById('payNickname').value,
+        holder: document.getElementById('payHolder').value,
+        number: document.getElementById('payNumber').value,
+        exp: document.getElementById('payExp').value,
+        ccv: document.getElementById('payCCV').value,
+        bill1: document.getElementById('billAddr1').value,
+        bill2: document.getElementById('billAddr2').value,
+        city: document.getElementById('billCity').value,
+        state: document.getElementById('billState').value,
+        zip: document.getElementById('billZip').value
+      };
+      const p = loadProfile();
+      if (editPayIndex >= 0) {
+        p.payment[editPayIndex] = pay;
+      } else {
+        p.payment.push(pay);
+      }
+      saveProfile(p);
+      document.getElementById('paymentFormContainer').classList.add('hidden');
+      renderPayment();
+    }
+
+    function loadContactForm() {
+      const contact = loadProfile().contact;
+      document.getElementById('contactEmail').value = contact.email || '';
+      document.getElementById('contactPhone').value = contact.phone || '';
+      document.getElementById('dealsOpt').checked = contact.deals;
+      document.getElementById('statusOpt').checked = contact.orderStatus;
+      document.getElementById('marketingOpt').checked = contact.marketing;
+    }
+
+    function saveContact(e) {
+      e.preventDefault();
+      const p = loadProfile();
+      p.contact = {
+        email: document.getElementById('contactEmail').value,
+        phone: document.getElementById('contactPhone').value,
+        deals: document.getElementById('dealsOpt').checked,
+        orderStatus: document.getElementById('statusOpt').checked,
+        marketing: document.getElementById('marketingOpt').checked
+      };
+      saveProfile(p);
+      alert('Contact preferences saved');
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       renderProfileMenu();
       updateCartMenu();
-      const p = loadProfile();
-      document.getElementById('shipping').value = p.shipping;
-      document.getElementById('billing').value = p.billing;
-      document.getElementById('payment').value = p.payment;
-      const list = document.getElementById('ordersList');
-      list.innerHTML = '';
-      p.orders.forEach((o, i) => {
-        const li = document.createElement('li');
-        li.textContent = `Order ${i + 1} - ${o.date} (${o.items.length} items)`;
-        list.appendChild(li);
-      });
-      document.getElementById('profileForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const prof = loadProfile();
-        prof.shipping = document.getElementById('shipping').value;
-        prof.billing = document.getElementById('billing').value;
-        prof.payment = document.getElementById('payment').value;
-        saveProfile(prof);
-        alert('Profile saved');
-      });
+      renderShipping();
+      renderPayment();
+      loadContactForm();
+      document.getElementById('addShippingBtn').addEventListener('click', () => showShippingForm(-1));
+      document.getElementById('addPaymentBtn').addEventListener('click', () => showPaymentForm(-1));
+      document.getElementById('shippingForm').addEventListener('submit', saveShipping);
+      document.getElementById('paymentForm').addEventListener('submit', savePayment);
+      document.getElementById('contactForm').addEventListener('submit', saveContact);
       document.getElementById('signOutBtn').addEventListener('click', () => {
         signOut();
         window.location.href = 'home.html';

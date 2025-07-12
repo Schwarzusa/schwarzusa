@@ -32,12 +32,22 @@ function signInUser(email, password) {
   return false;
 }
 
+function defaultProfile(email) {
+  return {
+    shipping: [],
+    payment: [],
+    contact: { email: email, phone: '', deals: false, orderStatus: true, marketing: false },
+    cart: [],
+    orders: []
+  };
+}
+
 function createAccount(email, password) {
   const accts = loadAccounts();
   if (accts[email]) return false;
   accts[email] = {
     password: password,
-    profile: { shipping: '', billing: '', payment: '', cart: [], orders: [] }
+    profile: defaultProfile(email)
   };
   saveAccounts(accts);
   localStorage.setItem('currentUser', email);
@@ -55,12 +65,12 @@ function loadProfile() {
   const accts = loadAccounts();
   if (email && accts[email]) {
     if (!accts[email].profile) {
-      accts[email].profile = { shipping: '', billing: '', payment: '', cart: [], orders: [] };
+      accts[email].profile = defaultProfile(email);
       saveAccounts(accts);
     }
     return accts[email].profile;
   }
-  return { shipping: '', billing: '', payment: '', cart: [], orders: [] };
+  return defaultProfile('');
 }
 
 function saveProfile(profile) {
