@@ -1,60 +1,92 @@
-function toggleMenu(menuId) {
-  const menu = document.getElementById(menuId);
-  const isHidden = menu.classList.contains('hidden');
-  document.getElementById('profileMenu').classList.add('hidden');
-  document.getElementById('cartMenu').classList.add('hidden');
-  if (isHidden) menu.classList.remove('hidden');
+function showMenu(id) {
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function hideMenu(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+function loadAccounts() {
+  const data = localStorage.getItem('accounts');
+  return data ? JSON.parse(data) : {};
+}
+
+function saveAccounts(accts) {
+  localStorage.setItem('accounts', JSON.stringify(accts));
+}
+
+function currentUser() {
+  return localStorage.getItem('currentUser');
+}
+
+function isSignedIn() {
+  return !!currentUser();
+}
+
+function signInUser(email, password) {
+  const accts = loadAccounts();
+  if (accts[email] && accts[email].password === password) {
+    localStorage.setItem('currentUser', email);
+    return true;
+  }
+  return false;
+}
+
+function defaultProfile(email) {
+  return {
+    shipping: [],
+    payment: [],
+    contact: { email: email, phone: '', deals: false, orderStatus: true, marketing: false },
+    cart: [],
+    orders: []
+  };
+}
+
+function createAccount(email, password) {
+  const accts = loadAccounts();
+  if (accts[email]) return false;
+  accts[email] = {
+    password: password,
+    profile: defaultProfile(email)
+  };
+  saveAccounts(accts);
+  localStorage.setItem('currentUser', email);
+  return true;
+}
+
+function signOut() {
+  localStorage.removeItem('currentUser');
+  renderProfileMenu();
+  updateCartMenu();
 }
 
 function loadProfile() {
-  const data = localStorage.getItem('profile');
-  return data ? JSON.parse(data) : { shipping: '', billing: '', payment: '', cart: [], orders: [] };
+  const email = currentUser();
+  const accts = loadAccounts();
+  if (email && accts[email]) {
+    if (!accts[email].profile) {
+      accts[email].profile = defaultProfile(email);
+      saveAccounts(accts);
+    }
+    return accts[email].profile;
+  }
+  return defaultProfile('');
 }
 
 function saveProfile(profile) {
-  localStorage.setItem('profile', JSON.stringify(profile));
-}
-
-function updateProfileInfo() {
-  const p = loadProfile();
-  document.getElementById('displayShipping').textContent = p.shipping || 'N/A';
-  document.getElementById('displayBilling').textContent = p.billing || 'N/A';
-  document.getElementById('displayPayment').textContent = p.payment || 'N/A';
-  const ordersList = document.getElementById('ordersList');
-  ordersList.innerHTML = '';
-  p.orders.forEach((o, i) => {
-    const li = document.createElement('li');
-    li.textContent = `Order ${i + 1} - ${o.date} (${o.items.length} items)`;
-    ordersList.appendChild(li);
-  });
-}
-
-function editProfile() {
-  const p = loadProfile();
-  document.getElementById('shipping').value = p.shipping;
-  document.getElementById('billing').value = p.billing;
-  document.getElementById('payment').value = p.payment;
-  document.getElementById('profileForm').classList.remove('hidden');
-  document.getElementById('profileInfo').classList.add('hidden');
-}
-
-function handleProfileSubmit(e) {
-  e.preventDefault();
-  const p = loadProfile();
-  p.shipping = document.getElementById('shipping').value;
-  p.billing = document.getElementById('billing').value;
-  p.payment = document.getElementById('payment').value;
-  saveProfile(p);
-  document.getElementById('profileForm').classList.add('hidden');
-  document.getElementById('profileInfo').classList.remove('hidden');
-  updateProfileInfo();
+  const email = currentUser();
+  if (!email) return;
+  const accts = loadAccounts();
+  accts[email].profile = profile;
+  saveAccounts(accts);
 }
 
 function updateCartMenu() {
   const p = loadProfile();
   const cartList = document.getElementById('cartItems');
+  if (!cartList) return;
   cartList.innerHTML = '';
-  p.cart.forEach((item, i) => {
+  p.cart.forEach(item => {
     const li = document.createElement('li');
     li.textContent = item;
     cartList.appendChild(li);
@@ -75,11 +107,26 @@ function checkout() {
   p.cart = [];
   saveProfile(p);
   updateCartMenu();
-  updateProfileInfo();
+}
+
+function renderProfileMenu() {
+  const signed = isSignedIn();
+  const signedDiv = document.getElementById('profileSigned');
+  const unsignedDiv = document.getElementById('profileUnsigned');
+  if (signedDiv && unsignedDiv) {
+    signedDiv.classList.toggle('hidden', !signed);
+    unsignedDiv.classList.toggle('hidden', signed);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateProfileInfo();
+  renderProfileMenu();
   updateCartMenu();
-  document.getElementById('profileForm').addEventListener('submit', handleProfileSubmit);
+  const signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', () => {
+      signOut();
+      window.location.href = 'home.html';
+    });
+  }
 });
