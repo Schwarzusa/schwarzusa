@@ -35,18 +35,18 @@
     <h1 class="text-3xl font-semibold">Customize Your Card</h1>
     <p class="text-gray-300">Apply different designs, borders and colors.</p>
     <div class="flex flex-col items-center">
-      <button onclick="nextBorder()" class="text-2xl mb-2">▲</button>
+      <button onclick="nextBorder()" class="text-3xl mb-2">&#x2227;</button>
       <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden">
         <img id="designImage" src="assets/Test%20Card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden">
         <span id="designNumber" class="text-5xl"></span>
         <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
       </div>
-      <button onclick="prevBorder()" class="text-2xl mt-2">▼</button>
+      <button onclick="prevBorder()" class="text-3xl mt-2">&#x2228;</button>
     </div>
     <div class="flex items-center space-x-6">
-      <button onclick="prevDesign()" class="text-2xl">◀</button>
+      <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
       <span class="text-gray-400">Design</span>
-      <button onclick="nextDesign()" class="text-2xl">▶</button>
+      <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
     </div>
     <div class="flex space-x-6">
       <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
@@ -70,7 +70,9 @@
       function updatePreview() {
         const designNumberEl = document.getElementById('designNumber');
         const designImageEl = document.getElementById('designImage');
-        document.getElementById('cardPreview').style.backgroundColor = selectedColor;
+        const cardPreviewEl = document.getElementById('cardPreview');
+        cardPreviewEl.style.backgroundColor = selectedColor;
+        cardPreviewEl.style.borderColor = borderIndex === 0 ? "transparent" : "white";
         designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
 
         if (designNumbers[designIndex] === 1) {
