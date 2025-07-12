@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Schwarz USA - Custom</title>
+  <title>Your Account - Schwarz USA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/app.js"></script>
   <style>
@@ -14,9 +14,6 @@
       background-size: auto;
       background-position: top left;
     }
-    .nav-active {
-      border-bottom: 4px solid #ff4f00; /* international orange */
-    }
   </style>
 </head>
 <body class="text-white font-sans">
@@ -26,7 +23,7 @@
     <nav class="space-x-6">
       <a href="products.html" class="hover:underline">Products</a>
       <a href="designs.html" class="hover:underline">Designs</a>
-      <a href="custom.html" class="hover:underline nav-active">Custom</a>
+      <a href="custom.html" class="hover:underline">Custom</a>
       <a href="technologies.html" class="hover:underline">Technologies</a>
     </nav>
     <div class="space-x-4 relative">
@@ -50,18 +47,48 @@
     </div>
   </header>
 
-  <!-- Page content -->
   <main class="pt-28 px-6">
-    <h1 class="text-3xl font-semibold">Customize Your Card</h1>
-    <p class="mt-4 text-gray-300">Create a personalized card tailored to you.</p>
+    <h1 class="text-3xl font-semibold mb-4">Account Details</h1>
+    <form id="profileForm" class="space-y-3 max-w-md mx-auto text-black">
+      <input id="shipping" class="w-full px-2 py-1 rounded" placeholder="Shipping Address" />
+      <input id="billing" class="w-full px-2 py-1 rounded" placeholder="Billing Address" />
+      <input id="payment" class="w-full px-2 py-1 rounded" placeholder="Payment Info" />
+      <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Profile</button>
+    </form>
+    <div class="max-w-md mx-auto mt-6">
+      <h2 class="text-xl font-semibold mb-2">Orders</h2>
+      <ul id="ordersList" class="list-disc list-inside"></ul>
+    </div>
   </main>
 
   <script>
-    // Redirect to home page on Enter key press
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProfileMenu();
+      updateCartMenu();
+      const p = loadProfile();
+      document.getElementById('shipping').value = p.shipping;
+      document.getElementById('billing').value = p.billing;
+      document.getElementById('payment').value = p.payment;
+      const list = document.getElementById('ordersList');
+      list.innerHTML = '';
+      p.orders.forEach((o, i) => {
+        const li = document.createElement('li');
+        li.textContent = `Order ${i + 1} - ${o.date} (${o.items.length} items)`;
+        list.appendChild(li);
+      });
+      document.getElementById('profileForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const prof = loadProfile();
+        prof.shipping = document.getElementById('shipping').value;
+        prof.billing = document.getElementById('billing').value;
+        prof.payment = document.getElementById('payment').value;
+        saveProfile(prof);
+        alert('Profile saved');
+      });
+      document.getElementById('signOutBtn').addEventListener('click', () => {
+        signOut();
         window.location.href = 'home.html';
-      }
+      });
     });
   </script>
 </body>
