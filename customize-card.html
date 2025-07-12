@@ -37,7 +37,7 @@
       <div class="flex flex-col items-center space-y-4 md:w-1/2">
         <button onclick="nextBorder()" class="text-3xl">&#x2227;</button>
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
-          <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl">&#x2329;</button>
+          <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x2329;</button>
           <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl">&#x232A;</button>
           <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden" />
           <span id="designNumber" class="text-5xl"></span>
@@ -58,6 +58,7 @@
   <script>
       const borderLetters = 'ABCDEFGHIJ'.split('');
       const designs = [
+        main
         { id: 1, image: 'assets/Test Card.png' },
         { id: 2, image: 'assets/Placeholder_card.png' },
         { id: 3, image: 'assets/Placeholder_card.png' },
@@ -91,6 +92,7 @@
         if (orderBtn) {
           const colorCode = selectedColorName.charAt(0).toUpperCase() + selectedColorName.slice(1);
           orderBtn.dataset.code = colorCode + designNumbers[designIndex] + borderLetters[borderIndex];
+          main
         }
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
