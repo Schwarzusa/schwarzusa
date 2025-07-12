@@ -40,7 +40,6 @@
           <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x2329;</button>
           <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x232A;</button>
           <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" />
-          <span id="designNumber" class="text-5xl"></span>
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
         <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
@@ -68,13 +67,7 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
-    const designColorMap = {
-      black: 'silver',
-      white: 'black',
-      gold: 'black'
-    };
       function updatePreview() {
-        const designNumberEl = document.getElementById('designNumber');
         const designImageEl = document.getElementById('designImage');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
@@ -83,9 +76,6 @@
         const design = designs[designIndex];
         designImageEl.src = design.image;
         designImageEl.classList.remove('hidden');
-        designNumberEl.textContent = design.id;
-
-        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
 
         const orderBtn = document.querySelector('.order-btn');
