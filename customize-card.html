@@ -39,18 +39,13 @@
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
           <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl">&#x2329;</button>
           <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl">&#x232A;</button>
-          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover" />
+          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden" />
           <span id="designNumber" class="text-5xl"></span>
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
         <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 md:w-1/2 mt-8 md:mt-0">
-        <div class="flex items-center space-x-6">
-          <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
-          <span class="text-gray-400">Design</span>
-          <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
-        </div>
         <div class="flex space-x-6">
           <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
           <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
@@ -95,7 +90,7 @@
         const orderBtn = document.querySelector('.order-btn');
         if (orderBtn) {
           const colorCode = selectedColorName.charAt(0).toUpperCase() + selectedColorName.slice(1);
-          orderBtn.dataset.code = colorCode + design.id + borderLetters[borderIndex];
+          orderBtn.dataset.code = colorCode + designNumbers[designIndex] + borderLetters[borderIndex];
         }
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
