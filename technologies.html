@@ -29,34 +29,26 @@
       <a href="custom.html" class="hover:underline">Custom</a>
       <a href="technologies.html" class="hover:underline nav-active">Technologies</a>
     </nav>
-    <div class="space-x-4">
-      <button onclick="toggleMenu('profileMenu')" class="hover:text-gray-300">👤</button>
-      <button onclick="toggleMenu('cartMenu')" class="hover:text-gray-300">🛒</button>
+    <div class="space-x-4 relative">
+      <button id="profileBtn" onmouseenter="showMenu('profileMenu')" class="hover:text-gray-300">👤</button>
+      <button id="cartBtn" onmouseenter="showMenu('cartMenu')" class="hover:text-gray-300">🛒</button>
+      <div id="profileMenu" onmouseleave="hideMenu('profileMenu')" class="hidden absolute right-0 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
+        <div id="profileUnsigned">
+          <a href="sign-in.html" class="block hover:underline">Sign In</a>
+        </div>
+        <div id="profileSigned" class="hidden space-y-2">
+          <a href="account.html" class="block hover:underline">Account</a>
+          <a href="orders.html" class="block hover:underline">Orders</a>
+          <button id="signOutBtn" class="text-left hover:underline w-full">Sign Out</button>
+        </div>
+      </div>
+      <div id="cartMenu" onmouseleave="hideMenu('cartMenu')" class="hidden absolute right-12 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
+        <p class="font-semibold">Cart</p>
+        <ul id="cartItems" class="list-disc list-inside mb-2"></ul>
+        <button onclick="checkout()" class="bg-green-500 text-white px-2 py-1 rounded w-full">Checkout</button>
+      </div>
     </div>
   </header>
-
-  <!-- Menus -->
-  <div id="profileMenu" class="hidden absolute right-6 top-16 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm">
-    <form id="profileForm" class="space-y-2 text-black">
-      <input id="shipping" class="w-full px-2 py-1 rounded" placeholder="Shipping Address" />
-      <input id="billing" class="w-full px-2 py-1 rounded" placeholder="Billing Address" />
-      <input id="payment" class="w-full px-2 py-1 rounded" placeholder="Payment Info" />
-      <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Save Profile</button>
-    </form>
-    <div id="profileInfo" class="hidden text-white text-left mt-2">
-      <p><strong>Shipping:</strong> <span id="displayShipping"></span></p>
-      <p><strong>Billing:</strong> <span id="displayBilling"></span></p>
-      <p><strong>Payment:</strong> <span id="displayPayment"></span></p>
-      <p class="mt-2 font-semibold">Orders:</p>
-      <ul id="ordersList" class="list-disc list-inside"></ul>
-      <button onclick="editProfile()" class="bg-blue-500 text-white px-2 py-1 rounded mt-2 w-full">Edit</button>
-    </div>
-  </div>
-  <div id="cartMenu" class="hidden absolute right-16 top-16 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
-    <p class="font-semibold">Cart</p>
-    <ul id="cartItems" class="list-disc list-inside mb-2"></ul>
-    <button onclick="checkout()" class="bg-green-500 text-white px-2 py-1 rounded w-full">Checkout</button>
-  </div>
 
   <!-- Page content -->
   <main class="pt-28 px-6">
