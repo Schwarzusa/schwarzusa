@@ -80,8 +80,18 @@
     let borderIndex = 0;
     let designIndex = 0;
     let selectedColor = 'black';
+    let selectedColorName = 'black';
+    const designColorMap = {
+      black: 'silver',
+      white: 'black',
+      gold: 'black'
+    };
     function updatePreview() {
       document.getElementById('cardPreview').style.backgroundColor = selectedColor;
+      const overlayColor = designColorMap[selectedColorName] || 'black';
+      document.getElementById('designNumber').style.color = overlayColor;
+      document.getElementById('borderLetter').style.color = overlayColor;
+      document.getElementById('cardPreview').style.borderColor = overlayColor;
       document.getElementById('designNumber').textContent = designNumbers[designIndex];
       document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
     }
@@ -90,10 +100,20 @@
     function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
     function prevDesign() { designIndex = (designIndex - 1 + designNumbers.length) % designNumbers.length; updatePreview(); }
     function selectColor(color) {
+      selectedColorName = color;
       selectedColor = color === 'gold' ? '#d4af37' : color;
-      document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
+      document.querySelectorAll('.color-option').forEach(el => {
+        el.classList.remove('ring-4','scale-110');
+        el.style.boxShadow = '';
+        el.style.borderColor = '';
+      });
       const el = document.getElementById('color-' + color);
-      if (el) { el.classList.add('ring-4','scale-110'); }
+      if (el) {
+        const overlay = designColorMap[color];
+        el.classList.add('ring-4','scale-110');
+        el.style.boxShadow = `0 0 0 4px ${overlay}`;
+        el.style.borderColor = overlay;
+      }
       updatePreview();
     }
     document.addEventListener('DOMContentLoaded', () => { selectColor('black'); updatePreview(); });
