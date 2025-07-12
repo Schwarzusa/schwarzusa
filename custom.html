@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schwarz USA - Custom</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="assets/app.js"></script>
   <style>
     body {
       background-color: #0d0d0d;
@@ -29,25 +28,6 @@
       <a href="custom.html" class="hover:underline nav-active">Custom</a>
       <a href="technologies.html" class="hover:underline">Technologies</a>
     </nav>
-    <div class="space-x-4 relative">
-      <button id="profileBtn" onmouseenter="showMenu('profileMenu')" class="hover:text-gray-300">👤</button>
-      <button id="cartBtn" onmouseenter="showMenu('cartMenu')" class="hover:text-gray-300">🛒</button>
-      <div id="profileMenu" onmouseleave="hideMenu('profileMenu')" class="hidden absolute right-0 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
-        <div id="profileUnsigned">
-          <a href="sign-in.html" class="block hover:underline">Sign In</a>
-        </div>
-        <div id="profileSigned" class="hidden space-y-2">
-          <a href="account.html" class="block hover:underline">Account</a>
-          <a href="orders.html" class="block hover:underline">Orders</a>
-          <button id="signOutBtn" class="text-left hover:underline w-full">Sign Out</button>
-        </div>
-      </div>
-      <div id="cartMenu" onmouseleave="hideMenu('cartMenu')" class="hidden absolute right-12 mt-2 bg-gray-800 p-4 rounded shadow-lg z-50 text-sm text-white">
-        <p class="font-semibold">Cart</p>
-        <ul id="cartItems" class="list-disc list-inside mb-2"></ul>
-        <button onclick="checkout()" class="bg-green-500 text-white px-2 py-1 rounded w-full">Checkout</button>
-      </div>
-    </div>
   </header>
 
   <!-- Page content -->
