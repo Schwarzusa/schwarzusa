@@ -16,6 +16,14 @@
     .nav-active {
       border-bottom: 4px solid #ff4f00; /* international orange */
     }
+    .arrow {
+      font-size: 2rem;
+      font-weight: 300;
+      display: inline-block;
+      transform: scaleX(1.5);
+      line-height: 1;
+      user-select: none;
+    }
   </style>
 </head>
 <body class="text-white font-sans">
@@ -35,18 +43,18 @@
     <h1 class="text-3xl font-semibold">Customize Your Card</h1>
     <p class="text-gray-300">Apply different designs, borders and colors.</p>
     <div class="flex flex-col items-center">
-      <button onclick="nextBorder()" class="text-3xl mb-2">&#x2227;</button>
+      <button onclick="nextBorder()" class="arrow mb-2">^</button>
       <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden">
         <img id="designImage" src="assets/Test%20Card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden">
         <span id="designNumber" class="text-5xl"></span>
         <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
       </div>
-      <button onclick="prevBorder()" class="text-3xl mt-2">&#x2228;</button>
+      <button onclick="prevBorder()" class="arrow mt-2">v</button>
     </div>
     <div class="flex items-center space-x-6">
-      <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
+      <button onclick="prevDesign()" class="arrow">&lt;</button>
       <span class="text-gray-400">Design</span>
-      <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
+      <button onclick="nextDesign()" class="arrow">&gt;</button>
     </div>
     <div class="flex space-x-6">
       <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
@@ -62,6 +70,7 @@
     let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
+    const borderLetterColors = ['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#4ade80','#facc15','#fda4af'];
     const designColorMap = {
       black: 'silver',
       white: 'black',
@@ -72,7 +81,7 @@
         const designImageEl = document.getElementById('designImage');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
-        cardPreviewEl.style.borderColor = borderIndex === 0 ? "transparent" : "white";
+        cardPreviewEl.style.borderColor = 'transparent';
         designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
 
         if (designNumbers[designIndex] === 1) {
@@ -83,7 +92,9 @@
           designImageEl.classList.add('hidden');
           designNumberEl.textContent = designNumbers[designIndex];
         }
-        document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
+        const borderLetterEl = document.getElementById('borderLetter');
+        borderLetterEl.textContent = borderLetters[borderIndex];
+        borderLetterEl.style.color = borderLetterColors[borderIndex % borderLetterColors.length];
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
     function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
