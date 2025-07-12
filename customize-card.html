@@ -103,14 +103,14 @@
       selectedColorName = color;
       selectedColor = color === 'gold' ? '#d4af37' : color;
       document.querySelectorAll('.color-option').forEach(el => {
-        el.classList.remove('ring-4','scale-110');
+        el.classList.remove('scale-110');
         el.style.boxShadow = '';
         el.style.borderColor = '';
       });
       const el = document.getElementById('color-' + color);
       if (el) {
         const overlay = designColorMap[color];
-        el.classList.add('ring-4','scale-110');
+        el.classList.add('scale-110');
         el.style.boxShadow = `0 0 0 4px ${overlay}`;
         el.style.borderColor = overlay;
       }
