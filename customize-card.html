@@ -39,13 +39,18 @@
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
           <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl">&#x2329;</button>
           <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl">&#x232A;</button>
-          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden" />
+          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover" />
           <span id="designNumber" class="text-5xl"></span>
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
         <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 md:w-1/2 mt-8 md:mt-0">
+        <div class="flex items-center space-x-6">
+          <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
+          <span class="text-gray-400">Design</span>
+          <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
+        </div>
         <div class="flex space-x-6">
           <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
           <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
@@ -56,10 +61,16 @@
     </div>
   </main>
   <script>
-    const borderLetters = 'ABCDEFGHIJ'.split('');
-    const designNumbers = [1,2,3,4,5];
-    let borderIndex = 0;
-    let designIndex = 0;
+      const borderLetters = 'ABCDEFGHIJ'.split('');
+      const designs = [
+        { id: 1, image: 'assets/Placeholder_card.png' },
+        { id: 2, image: 'assets/Placeholder_card.png' },
+        { id: 3, image: 'assets/Placeholder_card.png' },
+        { id: 4, image: 'assets/Placeholder_card.png' },
+        { id: 5, image: 'assets/Placeholder_card.png' }
+      ];
+      let borderIndex = 0;
+      let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
     const designColorMap = {
@@ -72,28 +83,25 @@
         const designImageEl = document.getElementById('designImage');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
-        cardPreviewEl.style.borderColor = borderIndex === 0 ? "transparent" : "white";
-        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
+        cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
 
-        if (designNumbers[designIndex] === 1) {
-          designImageEl.src = 'assets/Placeholder_card.png';
-          designImageEl.classList.remove('hidden');
-          designNumberEl.textContent = '';
-        } else {
-          designImageEl.classList.add('hidden');
-          designNumberEl.textContent = designNumbers[designIndex];
-        }
+        const design = designs[designIndex];
+        designImageEl.src = design.image;
+        designNumberEl.textContent = design.id;
+
+        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
+
         const orderBtn = document.querySelector('.order-btn');
         if (orderBtn) {
           const colorCode = selectedColorName.charAt(0).toUpperCase() + selectedColorName.slice(1);
-          orderBtn.dataset.code = colorCode + designNumbers[designIndex] + borderLetters[borderIndex];
+          orderBtn.dataset.code = colorCode + design.id + borderLetters[borderIndex];
         }
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
     function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
-    function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
-    function prevDesign() { designIndex = (designIndex - 1 + designNumbers.length) % designNumbers.length; updatePreview(); }
+    function nextDesign() { designIndex = (designIndex + 1) % designs.length; updatePreview(); }
+    function prevDesign() { designIndex = (designIndex - 1 + designs.length) % designs.length; updatePreview(); }
     function selectColor(color) {
       selectedColorName = color;
       selectedColor = color === 'gold' ? '#d4af37' : color;
