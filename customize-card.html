@@ -80,8 +80,15 @@
     let borderIndex = 0;
     let designIndex = 0;
     let selectedColor = 'black';
+    let selectedColorName = 'black';
+    const designColorMap = {
+      black: 'silver',
+      white: 'black',
+      gold: 'black'
+    };
     function updatePreview() {
       document.getElementById('cardPreview').style.backgroundColor = selectedColor;
+      document.getElementById('designNumber').style.color = designColorMap[selectedColorName] || 'black';
       document.getElementById('designNumber').textContent = designNumbers[designIndex];
       document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
     }
@@ -90,6 +97,7 @@
     function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
     function prevDesign() { designIndex = (designIndex - 1 + designNumbers.length) % designNumbers.length; updatePreview(); }
     function selectColor(color) {
+      selectedColorName = color;
       selectedColor = color === 'gold' ? '#d4af37' : color;
       document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
       const el = document.getElementById('color-' + color);
