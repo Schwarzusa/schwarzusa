@@ -89,8 +89,10 @@
     function updatePreview() {
       document.getElementById('cardPreview').style.backgroundColor = selectedColor;
       const overlayColor = designColorMap[selectedColorName] || 'black';
-      document.getElementById('designNumber').style.color = overlayColor;
-      document.getElementById('borderLetter').style.color = overlayColor;
+      const numberEl = document.getElementById('designNumber');
+      const letterEl = document.getElementById('borderLetter');
+      numberEl.style.color = overlayColor;
+      letterEl.style.color = numberEl.style.color;
       document.getElementById('cardPreview').style.borderColor = overlayColor;
       document.getElementById('designNumber').textContent = designNumbers[designIndex];
       document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
