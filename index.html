@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Schwarz USA - Coming Soon</title>
+    <title>Schwarz USA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
@@ -15,21 +15,24 @@
       }
     </style>
   </head>
-  <body class="relative text-white font-sans">
-    <main class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6">
-      <h2 class="text-2xl md:text-4xl text-yellow-400 mb-2 mt-10 uppercase tracking-wide font-bold">
-        Coming Soon
-      </h2>
-      <h1 class="text-5xl md:text-6xl font-bold mb-6">Schwarz USA</h1>
-      <a href="early-access.html" class="text-lg text-yellow-300 hover:underline mb-8">
-        View Early Access
-      </a>
-      <a href="mailto:contact@schwarzusa.us" class="bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition">
-        Contact Us
-      </a>
+  <body class="text-white font-sans">
+    <header class="relative w-full bg-black bg-opacity-80 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
+      <a href="index.html" class="text-xl font-bold hover:underline">Schwarz USA</a>
+      <nav class="absolute left-1/2 transform -translate-x-1/2 space-x-6">
+        <a href="products.html" class="hover:underline">Products</a>
+        <a href="designs.html" class="hover:underline">Designs</a>
+        <a href="customize-card.html" class="hover:underline">Customize Card</a>
+        <a href="technologies.html" class="hover:underline">Technologies</a>
+      </nav>
+    </header>
+    <main class="pt-32 pb-20 px-6 text-center flex flex-col items-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">Upgrade Your Card. No Account Needed.</h1>
+      <div class="space-x-4">
+        <a href="products.html" class="bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition">Pre-Made Designs</a>
+        <a href="customize-card.html" class="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition">Design Your Card</a>
+      </div>
     </main>
-
-    <footer class="relative z-10 text-sm text-gray-500 mt-10 text-center p-4">
+    <footer class="text-sm text-gray-500 text-center p-4">
       &copy; <span id="year"></span> Schwarz USA. All rights reserved.
     </footer>
 <script>
