@@ -36,7 +36,8 @@
     <p class="text-gray-300">Apply different designs, borders and colors.</p>
     <div class="flex flex-col items-center">
       <button onclick="nextBorder()" class="text-2xl mb-2">▲</button>
-      <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4">
+      <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden">
+        <img id="designImage" src="assets/Test%20Card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden">
         <span id="designNumber" class="text-5xl"></span>
         <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
       </div>
@@ -66,12 +67,22 @@
       white: 'black',
       gold: 'black'
     };
-    function updatePreview() {
-      document.getElementById('cardPreview').style.backgroundColor = selectedColor;
-      document.getElementById('designNumber').style.color = designColorMap[selectedColorName] || 'black';
-      document.getElementById('designNumber').textContent = designNumbers[designIndex];
-      document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
-    }
+      function updatePreview() {
+        const designNumberEl = document.getElementById('designNumber');
+        const designImageEl = document.getElementById('designImage');
+        document.getElementById('cardPreview').style.backgroundColor = selectedColor;
+        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
+
+        if (designNumbers[designIndex] === 1) {
+          designImageEl.src = 'assets/Test%20Card.png';
+          designImageEl.classList.remove('hidden');
+          designNumberEl.textContent = '';
+        } else {
+          designImageEl.classList.add('hidden');
+          designNumberEl.textContent = designNumbers[designIndex];
+        }
+        document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
+      }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
     function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
     function nextDesign() { designIndex = (designIndex + 1) % designNumbers.length; updatePreview(); }
