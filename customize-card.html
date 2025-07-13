@@ -38,9 +38,8 @@
         <button onclick="nextBorder()" class="text-3xl">&#x2227;</button>
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
           <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x2329;</button>
-          <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl">&#x232A;</button>
-          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover hidden" />
-          <span id="designNumber" class="text-5xl"></span>
+          <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x232A;</button>
+          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" />
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
         <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
@@ -58,8 +57,7 @@
   <script>
       const borderLetters = 'ABCDEFGHIJ'.split('');
       const designs = [
-        main
-        { id: 1, image: 'assets/Test Card.png' },
+        { id: 1, image: 'assets/Placeholder_card.png' },
         { id: 2, image: 'assets/Placeholder_card.png' },
         { id: 3, image: 'assets/Placeholder_card.png' },
         { id: 4, image: 'assets/Placeholder_card.png' },
@@ -69,13 +67,7 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
-    const designColorMap = {
-      black: 'silver',
-      white: 'black',
-      gold: 'black'
-    };
       function updatePreview() {
-        const designNumberEl = document.getElementById('designNumber');
         const designImageEl = document.getElementById('designImage');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
@@ -83,16 +75,13 @@
 
         const design = designs[designIndex];
         designImageEl.src = design.image;
-        designNumberEl.textContent = design.id;
-
-        designNumberEl.style.color = designColorMap[selectedColorName] || 'black';
+        designImageEl.classList.remove('hidden');
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
 
         const orderBtn = document.querySelector('.order-btn');
         if (orderBtn) {
           const colorCode = selectedColorName.charAt(0).toUpperCase() + selectedColorName.slice(1);
-          orderBtn.dataset.code = colorCode + designNumbers[designIndex] + borderLetters[borderIndex];
-          main
+          orderBtn.dataset.code = colorCode + design.id + borderLetters[borderIndex];
         }
       }
     function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
@@ -107,7 +96,10 @@
       if (el) { el.classList.add('ring-4','scale-110'); }
       updatePreview();
     }
-  document.addEventListener('DOMContentLoaded', () => { selectColor('black'); updatePreview(); });
+  document.addEventListener('DOMContentLoaded', () => {
+    // initialize preview with the default color
+    selectColor('black');
+  });
   </script>
   <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
     <div class="bg-white text-black p-6 rounded w-full max-w-md">
