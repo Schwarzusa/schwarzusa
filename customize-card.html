@@ -39,7 +39,7 @@
         <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
           <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x2329;</button>
           <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x232A;</button>
-          <img id="designImage" src="assets/Placeholder_card.png" alt="Design preview" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" />
+          <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
           <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
         </div>
         <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
@@ -57,25 +57,39 @@
   <script>
       const borderLetters = 'ABCDEFGHIJ'.split('');
       const designs = [
-        { id: 1, image: 'assets/Test Card.png' },
-        { id: 2, image: 'assets/Placeholder_card.png' },
-        { id: 3, image: 'assets/Placeholder_card.png' },
-        { id: 4, image: 'assets/Placeholder_card.png' },
-        { id: 5, image: 'assets/Placeholder_card.png' }
+        { id: 1, svg: 'assets/Test_Card.svg' },
+        { id: 2, svg: 'assets/Test_Card.svg' },
+        { id: 3, svg: 'assets/Test_Card.svg' },
+        { id: 4, svg: 'assets/Test_Card.svg' },
+        { id: 5, svg: 'assets/Test_Card.svg' },
+        { id: 6, svg: 'assets/Test_Card.svg' },
+        { id: 7, svg: 'assets/Test_Card.svg' },
+        { id: 8, svg: 'assets/Test_Card.svg' },
+        { id: 9, svg: 'assets/Test_Card.svg' },
+        { id: 10, svg: 'assets/Test_Card.svg' }
       ];
       let borderIndex = 0;
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
       function updatePreview() {
-        const designImageEl = document.getElementById('designImage');
+        const designSvgEl = document.getElementById('designSvg');
         const cardPreviewEl = document.getElementById('cardPreview');
         cardPreviewEl.style.backgroundColor = selectedColor;
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
 
         const design = designs[designIndex];
-        designImageEl.src = design.image;
-        designImageEl.classList.remove('hidden');
+        designSvgEl.data = design.svg;
+        designSvgEl.classList.remove('hidden');
+        designSvgEl.onload = () => {
+          const svgDoc = designSvgEl.contentDocument;
+          if (svgDoc) {
+            const cardShape = svgDoc.getElementById('card-fill');
+            if (cardShape) {
+              cardShape.setAttribute('fill', '#b08d57');
+            }
+          }
+        };
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
 
         const orderBtn = document.querySelector('.order-btn');
