@@ -103,6 +103,8 @@
             if (cardShape) {
               cardShape.setAttribute('fill', designColor);
             }
+            svgDoc.querySelectorAll('path').forEach(p => p.setAttribute('fill', designColor));
+            svgDoc.querySelectorAll('[stroke]').forEach(s => s.setAttribute('stroke', designColor));
           }
         };
         document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
