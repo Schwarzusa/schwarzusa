@@ -35,14 +35,16 @@
     <h1 class="text-3xl font-semibold text-center">Customize Your Card</h1>
     <div class="flex flex-col md:flex-row md:space-x-10 w-full max-w-4xl">
       <div class="flex flex-col items-center space-y-4 md:w-1/2">
-        <button onclick="nextBorder()" class="text-3xl">&#x2227;</button>
-        <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
-          <button onclick="prevDesign()" class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x2329;</button>
-          <button onclick="nextDesign()" class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl z-10">&#x232A;</button>
-          <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
-          <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
+        <!-- <button onclick="nextBorder()" class="text-3xl">&#x2227;</button> -->
+        <div class="flex items-center space-x-4">
+          <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
+          <div id="cardPreview" class="w-64 h-40 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
+            <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
+            <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
+          </div>
+          <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
         </div>
-        <button onclick="prevBorder()" class="text-3xl">&#x2228;</button>
+        <!-- <button onclick="prevBorder()" class="text-3xl">&#x2228;</button> -->
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 md:w-1/2 mt-8 md:mt-0">
         <div class="flex space-x-6">
