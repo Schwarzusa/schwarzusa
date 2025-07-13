@@ -87,6 +87,7 @@
         designSvgEl.onload = () => {
           const svgDoc = designSvgEl.contentDocument;
           if (svgDoc) {
+            const cardShape = svgDoc.getElementById('card-fill');
             let designColor;
             if (selectedColorName === 'blackbrass') {
               designColor = '#b08d57'; // brass
@@ -98,6 +99,9 @@
               designColor = '#d0d0d0'; // stainless steel
             } else {
               designColor = '#d0d0d0';
+            }
+            if (cardShape) {
+              cardShape.setAttribute('fill', designColor);
             }
             svgDoc.querySelectorAll('path').forEach(p => p.setAttribute('fill', designColor));
             svgDoc.querySelectorAll('[stroke]').forEach(s => s.setAttribute('stroke', designColor));
