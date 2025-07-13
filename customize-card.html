@@ -54,11 +54,12 @@
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 md:w-1/2 mt-8 md:mt-0">
         <div class="flex space-x-6">
-          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-white cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png')" onclick="selectColor('black')"></div>
-          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-gray-400 cursor-pointer transition-transform" style="background-image:url('assets/mattewhite.png')" onclick="selectColor('white')"></div>
-          <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/mirrorgold.png')" onclick="selectColor('gold')"></div>
-          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/mirrorgold.png')" onclick="selectColor('mirrorgold')"></div>
-          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-cover bg-center border cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png');border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
+          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
+          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
+          <div id="color-gold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#d4af37" onclick="selectColor('gold')"></div>
+          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#d4af37" onclick="selectColor('mirrorgold')"></div>
+          <div id="color-brushedgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#b8860b" onclick="selectColor('brushedgold')"></div>
+          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-black border cursor-pointer transition-transform" style="border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
         </div>
         <div class="flex space-x-4">
           <label class="flex items-center space-x-2">
@@ -92,7 +93,6 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
-    let selectedBackground = 'assets/matteblack.png';
     let inverseColors = false;
     let flipped = false;
       function updatePreview() {
@@ -108,9 +108,9 @@
         if (inverseColors) {
           [cardColor, designColor] = [designColor, cardColor];
         }
-        cardPreviewEl.style.backgroundColor = '';
-        cardPreviewEl.style.backgroundImage = `url('${selectedBackground}')`;
-        cardPreviewEl.style.backgroundSize = 'cover';
+        cardPreviewEl.style.backgroundColor = cardColor;
+        cardPreviewEl.style.backgroundImage = '';
+        cardPreviewEl.style.backgroundSize = '';
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
         designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
@@ -143,6 +143,8 @@
               colorCode = 'Gold';
             } else if (selectedColorName === 'mirrorgold') {
               colorCode = 'MIRGLD';
+            } else if (selectedColorName === 'brushedgold') {
+              colorCode = 'BRUGLD';
             } else {
               colorCode = selectedColorName;
             }
@@ -155,24 +157,16 @@
     function prevDesign() { designIndex = (designIndex - 1 + designs.length) % designs.length; updatePreview(); }
     function selectColor(color) {
       selectedColorName = color;
-        if (color === "gold") {
+        if (color === "gold" || color === "mirrorgold" || color === "brushedgold") {
           selectedColor = "#d4af37";
-          selectedBackground = 'assets/mirrorgold.png';
-        } else if (color === "mirrorgold") {
-          selectedColor = "#d4af37";
-          selectedBackground = 'assets/mirrorgold.png';
         } else if (color === "blackbrass") {
           selectedColor = "black";
-          selectedBackground = 'assets/matteblack.png';
         } else if (color === "black") {
           selectedColor = "black";
-          selectedBackground = 'assets/matteblack.png';
         } else if (color === "white") {
           selectedColor = "white";
-          selectedBackground = 'assets/mattewhite.png';
         } else {
           selectedColor = color;
-          selectedBackground = 'assets/matteblack.png';
         }
       document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
       const el = document.getElementById('color-' + color);
