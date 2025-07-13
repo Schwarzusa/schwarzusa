@@ -21,18 +21,18 @@
 <body class="text-white font-sans">
   <!-- Navigation Bar -->
    <header class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
-    <button id="menuBtn" class="flex items-center space-x-2 md:hidden">
-      <span class="text-xl font-bold">Schwarz USA</span>
+    <button id="menuBtn" class="flex items-center space-x-2 md:hidden mr-auto">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
+      <span class="text-xl font-bold">Schwarz USA</span>
     </button>
     <a href="index.html" class="text-xl font-bold hover:underline hidden md:block">Schwarz USA</a>
-     <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center py-2 hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 md:static md:py-0 md:bg-transparent md:transform md:-translate-x-1/2 md:left-1/2">
-      <a href="products.html" class="hover:underline">Products</a>
-      <a href="designs.html" class="hover:underline">Designs</a>
-      <a href="customize-card.html" class="hover:underline nav-active">Customize Card</a>
-      <a href="technologies.html" class="hover:underline">Technologies</a>
+     <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center divide-y divide-gray-700 py-2 hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bg-transparent md:divide-y-0">
+      <a href="products.html" class="block py-2 md:py-0 hover:underline">Products</a>
+      <a href="designs.html" class="block py-2 md:py-0 hover:underline">Designs</a>
+      <a href="customize-card.html" class="block py-2 md:py-0 hover:underline nav-active">Customize Card</a>
+      <a href="technologies.html" class="block py-2 md:py-0 hover:underline">Technologies</a>
     </nav>
   </header>
 
@@ -54,10 +54,11 @@
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 md:w-1/2 mt-8 md:mt-0">
         <div class="flex space-x-6">
-          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
-          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
-          <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-yellow-500 border border-yellow-200 cursor-pointer transition-transform" onclick="selectColor('gold')"></div>
-          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-black border cursor-pointer transition-transform" style="border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
+          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-white cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png')" onclick="selectColor('black')"></div>
+          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-gray-400 cursor-pointer transition-transform" style="background-image:url('assets/mattewhite.png')" onclick="selectColor('white')"></div>
+          <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/mirrorgold.png')" onclick="selectColor('gold')"></div>
+          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/mirrorgold.png')" onclick="selectColor('mirrorgold')"></div>
+          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-cover bg-center border cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png');border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
         </div>
         <div class="flex space-x-4">
           <label class="flex items-center space-x-2">
@@ -91,6 +92,7 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
+    let selectedBackground = 'assets/matteblack.png';
     let inverseColors = false;
     let flipped = false;
       function updatePreview() {
@@ -106,7 +108,9 @@
         if (inverseColors) {
           [cardColor, designColor] = [designColor, cardColor];
         }
-        cardPreviewEl.style.backgroundColor = cardColor;
+        cardPreviewEl.style.backgroundColor = '';
+        cardPreviewEl.style.backgroundImage = `url('${selectedBackground}')`;
+        cardPreviewEl.style.backgroundSize = 'cover';
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
         designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
@@ -137,6 +141,8 @@
               colorCode = 'White';
             } else if (selectedColorName === 'gold') {
               colorCode = 'Gold';
+            } else if (selectedColorName === 'mirrorgold') {
+              colorCode = 'MIRGLD';
             } else {
               colorCode = selectedColorName;
             }
@@ -151,14 +157,22 @@
       selectedColorName = color;
         if (color === "gold") {
           selectedColor = "#d4af37";
+          selectedBackground = 'assets/mirrorgold.png';
+        } else if (color === "mirrorgold") {
+          selectedColor = "#d4af37";
+          selectedBackground = 'assets/mirrorgold.png';
         } else if (color === "blackbrass") {
           selectedColor = "black";
+          selectedBackground = 'assets/matteblack.png';
         } else if (color === "black") {
           selectedColor = "black";
+          selectedBackground = 'assets/matteblack.png';
         } else if (color === "white") {
           selectedColor = "white";
+          selectedBackground = 'assets/mattewhite.png';
         } else {
           selectedColor = color;
+          selectedBackground = 'assets/matteblack.png';
         }
       document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
       const el = document.getElementById('color-' + color);
