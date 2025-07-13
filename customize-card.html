@@ -38,7 +38,7 @@
         <!-- <button onclick="nextBorder()" class="text-3xl">&#x2227;</button> -->
         <div class="flex items-center space-x-4">
           <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
-          <div id="cardPreview" class="w-80 h-52 relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
+          <div id="cardPreview" class="w-[20vw] h-[13vw] relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
             <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
             <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
           </div>
@@ -52,6 +52,16 @@
           <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
           <div id="color-gold" class="color-option w-8 h-8 rounded-full bg-yellow-500 border border-yellow-200 cursor-pointer transition-transform" onclick="selectColor('gold')"></div>
           <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-black border cursor-pointer transition-transform" style="border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
+        </div>
+        <div class="flex space-x-4">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="inverseToggle" onchange="toggleInverse()" class="form-checkbox text-black">
+            <span>Inverse Colors</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="flipToggle" onchange="toggleFlip()" class="form-checkbox text-black">
+            <span>Flip Design</span>
+          </label>
         </div>
         <button class="order-btn bg-[#d4af37] hover:bg-[#e0c94a] text-black px-4 py-2 rounded" data-code="">Order</button>
       </div>
@@ -75,11 +85,24 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
+    let inverseColors = false;
+    let flipped = false;
       function updatePreview() {
         const designSvgEl = document.getElementById('designSvg');
         const cardPreviewEl = document.getElementById('cardPreview');
-        cardPreviewEl.style.backgroundColor = selectedColor;
+        let cardColor = selectedColor;
+        let designColor;
+        if (selectedColorName === 'blackbrass') {
+          designColor = '#b08d57'; // brass
+        } else {
+          designColor = '#d0d0d0'; // stainless steel
+        }
+        if (inverseColors) {
+          [cardColor, designColor] = [designColor, cardColor];
+        }
+        cardPreviewEl.style.backgroundColor = cardColor;
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
+        designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
         const design = designs[designIndex];
         designSvgEl.data = design.svg;
@@ -88,18 +111,6 @@
           const svgDoc = designSvgEl.contentDocument;
           if (svgDoc) {
             const cardShape = svgDoc.getElementById('card-fill');
-            let designColor;
-            if (selectedColorName === 'blackbrass') {
-              designColor = '#b08d57'; // brass
-            } else if (selectedColorName === 'black') {
-              designColor = '#d0d0d0'; // stainless steel
-            } else if (selectedColorName === 'white') {
-              designColor = '#d0d0d0'; // stainless steel
-            } else if (selectedColorName === 'gold') {
-              designColor = '#d0d0d0'; // stainless steel
-            } else {
-              designColor = '#d0d0d0';
-            }
             if (cardShape) {
               cardShape.setAttribute('fill', designColor);
             }
@@ -146,6 +157,14 @@
       document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
       const el = document.getElementById('color-' + color);
       if (el) { el.classList.add('ring-4','scale-110'); }
+      updatePreview();
+    }
+    function toggleInverse() {
+      inverseColors = !inverseColors;
+      updatePreview();
+    }
+    function toggleFlip() {
+      flipped = !flipped;
       updatePreview();
     }
   document.addEventListener('DOMContentLoaded', () => {
