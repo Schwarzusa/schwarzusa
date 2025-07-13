@@ -17,30 +17,39 @@
   </head>
   <body class="text-white font-sans">
     <header class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
-      <a href="index.html" class="text-xl font-bold hover:underline">Schwarz USA</a>
-      <nav class="absolute left-1/2 transform -translate-x-1/2 space-x-6">
-        <a href="products.html" class="hover:underline">Products</a>
-        <a href="designs.html" class="hover:underline">Designs</a>
-        <a href="customize-card.html" class="hover:underline">Customize Card</a>
-        <a href="technologies.html" class="hover:underline">Technologies</a>
+      <button id="menuBtn" class="flex items-center space-x-2 md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="text-xl font-bold">Schwarz USA</span>
+      </button>
+      <a href="index.html" class="text-xl font-bold hover:underline hidden md:block">Schwarz USA</a>
+      <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center py-2 hidden flex-col divide-y divide-gray-700 md:flex md:flex-row md:space-x-6 md:divide-y-0 md:absolute md:top-auto md:left-1/2 md:transform md:-translate-x-1/2 md:bg-transparent md:py-0">
+        <a href="products.html" class="block py-2 hover:underline md:inline-block md:py-0">Products</a>
+        <a href="designs.html" class="block py-2 hover:underline md:inline-block md:py-0">Designs</a>
+        <a href="customize-card.html" class="block py-2 hover:underline md:inline-block md:py-0">Customize Card</a>
+        <a href="technologies.html" class="block py-2 hover:underline md:inline-block md:py-0">Technologies</a>
       </nav>
     </header>
     <main class="pt-32 pb-20 px-6 text-center flex flex-col items-center min-h-screen justify-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-6">Upgrade Your Card. No Account Needed.</h1>
-      <div class="space-x-4">
+      <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
         <a href="products.html" class="bg-[#e5e4e2] text-black px-6 py-3 rounded-full font-semibold hover:bg-[#f2f2f2] transition">Pre-Made Designs</a>
         <a href="customize-card.html" class="border border-[#d4af37] text-[#d4af37] px-6 py-3 rounded-full font-semibold hover:bg-[#d4af37] hover:text-black transition">Design Your Card</a>
       </div>
     </main>
     <footer class="text-sm text-gray-500 text-center p-4">
       &copy; <span id="year"></span> Schwarz USA. All rights reserved.
-    </footer>
+</footer>
 <script>
   document.addEventListener('keydown', function(e) {
     const tag = e.target.tagName.toLowerCase();
     if (e.key === 'Enter' && tag !== 'input' && tag !== 'textarea') {
       window.location.href = 'home.html';
     }
+  });
+  document.getElementById('menuBtn').addEventListener('click', function() {
+    document.getElementById('navMenu').classList.toggle('hidden');
   });
 </script>
 
