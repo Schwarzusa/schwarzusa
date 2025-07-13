@@ -7,12 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#1a1a1a] text-yellow-400 font-sans">
-     <header class="relative p-6 flex items-center text-sm bg-[#1a1a1a]">
-      <a href="index.html" class="font-bold hover:underline">Schwarz USA</a>
-       <nav class="absolute left-1/2 transform -translate-x-1/2 space-x-4 text-gray-300">
-        <a href="products.html" class="hover:underline">Products</a>
-        <a href="designs.html" class="hover:underline">Designs</a>
-        <a href="customize-card.html" class="hover:underline">Customize Card</a>
+    <header class="relative p-6 flex items-center text-sm bg-[#1a1a1a]">
+      <button id="menuBtn" class="flex items-center space-x-2 md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="font-bold">Schwarz USA</span>
+      </button>
+      <a href="index.html" class="font-bold hover:underline hidden md:block">Schwarz USA</a>
+       <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center py-2 hidden flex-col divide-y divide-gray-700 md:flex md:flex-row md:space-x-4 md:divide-y-0 md:static md:bg-transparent md:top-auto md:transform md:-translate-x-1/2 md:left-1/2">
+        <a href="products.html" class="block py-2 hover:underline md:inline-block md:py-0">Products</a>
+        <a href="designs.html" class="block py-2 hover:underline md:inline-block md:py-0">Designs</a>
+        <a href="customize-card.html" class="block py-2 hover:underline md:inline-block md:py-0">Customize Card</a>
       </nav>
     </header>
     <main class="px-6 md:px-20 py-10 text-center min-h-screen flex flex-col justify-center">
@@ -45,8 +51,11 @@
     <footer class="text-sm text-gray-500 mt-20 text-center p-4">
       &copy; <span id="year"></span> Schwarz USA
     </footer>
-    <script>
+  <script>
       document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+      document.getElementById('menuBtn').addEventListener('click', function() {
+        document.getElementById('navMenu').classList.toggle('hidden');
+      });
+  </script>
   </body>
 </html>
