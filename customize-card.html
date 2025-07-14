@@ -43,12 +43,12 @@
       <div class="flex flex-col items-center space-y-4 md:w-1/2">
         <!-- <button onclick="nextBorder()" class="text-3xl">&#x2227;</button> -->
         <div class="flex items-center space-x-4">
-          <button onclick="prevDesign()" class="text-3xl">&#x2329;</button>
+          <button id="prevDesignBtn" class="text-3xl">&#x2329;</button>
           <div id="cardPreview" class="w-[80vw] h-[50.4vw] md:w-[50vw] md:h-[31.5vw] relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
             <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
             <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
           </div>
-          <button onclick="nextDesign()" class="text-3xl">&#x232A;</button>
+          <button id="nextDesignBtn" class="text-3xl">&#x232A;</button>
         </div>
         <!-- <button onclick="prevBorder()" class="text-3xl">&#x2228;</button> -->
       </div>
@@ -192,6 +192,15 @@
   document.addEventListener('DOMContentLoaded', () => {
     // initialize preview with the default color
     selectColor('black');
+    document.getElementById('prevDesignBtn').addEventListener('click', prevDesign);
+    document.getElementById('nextDesignBtn').addEventListener('click', nextDesign);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') {
+        nextDesign();
+      } else if (e.key === 'ArrowLeft') {
+        prevDesign();
+      }
+    });
   });
   document.getElementById('menuBtn').addEventListener('click', function() {
     document.getElementById('navMenu').classList.toggle('hidden');
