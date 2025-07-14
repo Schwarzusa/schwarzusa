@@ -192,6 +192,13 @@
   document.addEventListener('DOMContentLoaded', () => {
     // initialize preview with the default color
     selectColor('black');
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') {
+        nextDesign();
+      } else if (e.key === 'ArrowLeft') {
+        prevDesign();
+      }
+    });
   });
   document.getElementById('menuBtn').addEventListener('click', function() {
     document.getElementById('navMenu').classList.toggle('hidden');
