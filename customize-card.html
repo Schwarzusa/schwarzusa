@@ -56,9 +56,8 @@
         <div class="flex space-x-6">
           <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
           <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
-          <div id="color-gold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#d4af37" onclick="selectColor('gold')"></div>
-          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#d4af37" onclick="selectColor('mirrorgold')"></div>
-          <div id="color-brushedgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#b8860b" onclick="selectColor('brushedgold')"></div>
+          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#FFD700" onclick="selectColor('mirrorgold')"></div>
+          <div id="color-brushedgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#C09B61" onclick="selectColor('brushedgold')"></div>
           <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-black border cursor-pointer transition-transform" style="border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
         </div>
         <div class="flex space-x-4">
@@ -111,6 +110,15 @@
         cardPreviewEl.style.backgroundColor = cardColor;
         cardPreviewEl.style.backgroundImage = '';
         cardPreviewEl.style.backgroundSize = '';
+        if (selectedColorName === 'mirrorgold') {
+          cardPreviewEl.style.backgroundColor = '#FFD700';
+          cardPreviewEl.style.backgroundImage = 'linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.6) 100%)';
+          cardPreviewEl.style.backgroundSize = '200% 200%';
+        } else if (selectedColorName === 'brushedgold') {
+          cardPreviewEl.style.backgroundColor = '#C09B61';
+          cardPreviewEl.style.backgroundImage = 'url(assets/brushedgold.png)';
+          cardPreviewEl.style.backgroundSize = 'cover';
+        }
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
         designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
@@ -139,8 +147,6 @@
               colorCode = 'Black';
             } else if (selectedColorName === 'white') {
               colorCode = 'White';
-            } else if (selectedColorName === 'gold') {
-              colorCode = 'Gold';
             } else if (selectedColorName === 'mirrorgold') {
               colorCode = 'MIRGLD';
             } else if (selectedColorName === 'brushedgold') {
@@ -157,8 +163,10 @@
     function prevDesign() { designIndex = (designIndex - 1 + designs.length) % designs.length; updatePreview(); }
     function selectColor(color) {
       selectedColorName = color;
-        if (color === "gold" || color === "mirrorgold" || color === "brushedgold") {
-          selectedColor = "#d4af37";
+        if (color === "mirrorgold") {
+          selectedColor = "#FFD700";
+        } else if (color === "brushedgold") {
+          selectedColor = "#C09B61";
         } else if (color === "blackbrass") {
           selectedColor = "black";
         } else if (color === "black") {
