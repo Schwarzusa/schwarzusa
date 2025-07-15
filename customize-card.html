@@ -77,8 +77,8 @@
   <script>
       const borderLetters = 'ABCDEFGHIJ'.split('');
       const designs = [
-        { id: 1, svg: 'assets/Test_Card.svg' },
-        { id: 2, svg: 'assets/Dragon.svg' },
+        { id: 1, svg: 'assets/Dragon.svg' },
+        { id: 2, svg: 'assets/Test_Card.svg' },
         { id: 3, svg: 'assets/Test_Card.svg' },
         { id: 4, svg: 'assets/Test_Card.svg' },
         { id: 5, svg: 'assets/Test_Card.svg' },
@@ -116,7 +116,7 @@
           cardPreviewEl.style.backgroundSize = '200% 200%';
         } else if (selectedColorName === 'brushedgold') {
           cardPreviewEl.style.backgroundColor = '#C09B61';
-          cardPreviewEl.style.backgroundImage = 'url(assets/brushedgold.png)';
+          //cardPreviewEl.style.backgroundImage = 'url(assets/brushedgold.png)';
           cardPreviewEl.style.backgroundSize = 'cover';
         }
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
