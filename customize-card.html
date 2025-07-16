@@ -41,16 +41,13 @@
     <h1 class="text-3xl font-semibold text-center">Customize Your Card</h1>
     <div class="flex flex-col w-full max-w-5xl items-center space-y-6">
       <div class="flex flex-col items-center space-y-4 w-full">
-        <!-- <button onclick="nextBorder()" class="text-3xl">&#x2227;</button> -->
         <div class="flex items-center space-x-4">
           <button id="prevDesignBtn" type="button" class="text-3xl" onclick="prevDesign()">&#x2329;</button>
           <div id="cardPreview" class="w-[80vw] h-[50.4vw] md:w-[50vw] md:h-[31.5vw] relative flex items-center justify-center rounded border-4 overflow-hidden">
             <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
-            <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
           </div>
           <button id="nextDesignBtn" type="button" class="text-3xl" onclick="nextDesign()">&#x232A;</button>
         </div>
-        <!-- <button onclick="prevBorder()" class="text-3xl">&#x2228;</button> -->
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 w-full">
       <div class="flex space-x-6">
@@ -75,7 +72,6 @@
     </div>
   </main>
   <script>
-      const borderLetters = 'ABCDEFGHIJ'.split('');
       const designs = [
         { id: 1, svg: 'assets/Dragon.svg' },
         { id: 2, svg: 'assets/Test_Card.svg' },
@@ -88,7 +84,6 @@
         { id: 9, svg: 'assets/Test_Card.svg' },
         { id: 10, svg: 'assets/Test_Card.svg' }
       ];
-      let borderIndex = 0;
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
@@ -117,7 +112,7 @@
         cardPreviewEl.style.backgroundImage = `url('${backgroundImage}')`;
         cardPreviewEl.style.backgroundSize = 'cover';
         cardPreviewEl.style.backgroundPosition = 'center';
-        cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
+        cardPreviewEl.style.borderColor = 'white';
         designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
         const design = designs[designIndex];
@@ -134,7 +129,6 @@
             svgDoc.querySelectorAll('[stroke]').forEach(s => s.setAttribute('stroke', designColor));
           }
         };
-        document.getElementById('borderLetter').textContent = borderLetters[borderIndex];
 
         const orderBtn = document.querySelector('.order-btn');
         if (orderBtn) {
@@ -152,11 +146,10 @@
             } else {
               colorCode = selectedColorName;
             }
-            orderBtn.dataset.code = colorCode + design.id + borderLetters[borderIndex];
+            orderBtn.dataset.code = colorCode + design.id;
         }
       }
-    function nextBorder() { borderIndex = (borderIndex + 1) % borderLetters.length; updatePreview(); }
-    function prevBorder() { borderIndex = (borderIndex - 1 + borderLetters.length) % borderLetters.length; updatePreview(); }
+    
     function nextDesign() { designIndex = (designIndex + 1) % designs.length; updatePreview(); }
     function prevDesign() { designIndex = (designIndex - 1 + designs.length) % designs.length; updatePreview(); }
     function selectColor(color) {
