@@ -44,7 +44,7 @@
         <!-- <button onclick="nextBorder()" class="text-3xl">&#x2227;</button> -->
         <div class="flex items-center space-x-4">
           <button id="prevDesignBtn" type="button" class="text-3xl" onclick="prevDesign()">&#x2329;</button>
-          <div id="cardPreview" class="w-[80vw] h-[50.4vw] md:w-[50vw] md:h-[31.5vw] relative flex items-center justify-center rounded border-4 overflow-hidden bg-black">
+          <div id="cardPreview" class="w-[80vw] h-[50.4vw] md:w-[50vw] md:h-[31.5vw] relative flex items-center justify-center rounded border-4 overflow-hidden">
             <object id="designSvg" data="assets/Test_Card.svg" type="image/svg+xml" class="absolute inset-0 w-full h-full pointer-events-none z-0"></object>
             <span id="borderLetter" class="absolute top-1 left-1 text-sm"></span>
           </div>
@@ -53,13 +53,13 @@
         <!-- <button onclick="prevBorder()" class="text-3xl">&#x2228;</button> -->
       </div>
       <div class="flex flex-col items-center justify-center space-y-6 w-full">
-        <div class="flex space-x-6">
-          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-black border border-white cursor-pointer transition-transform" onclick="selectColor('black')"></div>
-          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-white border border-gray-400 cursor-pointer transition-transform" onclick="selectColor('white')"></div>
-          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#FFD700" onclick="selectColor('mirrorgold')"></div>
-          <div id="color-brushedgold" class="color-option w-8 h-8 rounded-full border border-yellow-200 cursor-pointer transition-transform" style="background-color:#C09B61" onclick="selectColor('brushedgold')"></div>
-          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-black border cursor-pointer transition-transform" style="border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
-        </div>
+      <div class="flex space-x-6">
+          <div id="color-black" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-white cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png')" onclick="selectColor('black')"></div>
+          <div id="color-white" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-gray-400 cursor-pointer transition-transform" style="background-image:url('assets/mattewhite.png')" onclick="selectColor('white')"></div>
+          <div id="color-mirrorgold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/mirrorgold.png')" onclick="selectColor('mirrorgold')"></div>
+          <div id="color-brushedgold" class="color-option w-8 h-8 rounded-full bg-cover bg-center border border-yellow-200 cursor-pointer transition-transform" style="background-image:url('assets/brushedgold.png')" onclick="selectColor('brushedgold')"></div>
+          <div id="color-blackbrass" class="color-option w-8 h-8 rounded-full bg-cover bg-center border cursor-pointer transition-transform" style="background-image:url('assets/matteblack.png');border-color:#b08d57" onclick="selectColor('blackbrass')"></div>
+      </div>
         <div class="flex space-x-4">
           <label class="flex items-center space-x-2">
             <input type="checkbox" id="inverseToggle" onchange="toggleInverse()" class="form-checkbox text-black">
@@ -92,6 +92,7 @@
       let designIndex = 0;
     let selectedColor = 'black';
     let selectedColorName = 'black';
+    let selectedBackground = 'assets/matteblack.png';
     let inverseColors = false;
     let flipped = false;
       function updatePreview() {
@@ -107,18 +108,10 @@
         if (inverseColors) {
           [cardColor, designColor] = [designColor, cardColor];
         }
-        cardPreviewEl.style.backgroundColor = cardColor;
-        cardPreviewEl.style.backgroundImage = '';
-        cardPreviewEl.style.backgroundSize = '';
-        if (selectedColorName === 'mirrorgold') {
-          cardPreviewEl.style.backgroundColor = '#FFD700';
-          cardPreviewEl.style.backgroundImage = 'linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.6) 100%)';
-          cardPreviewEl.style.backgroundSize = '200% 200%';
-        } else if (selectedColorName === 'brushedgold') {
-          cardPreviewEl.style.backgroundColor = '#C09B61';
-          //cardPreviewEl.style.backgroundImage = 'url(assets/brushedgold.png)';
-          cardPreviewEl.style.backgroundSize = 'cover';
-        }
+        cardPreviewEl.style.backgroundColor = '';
+        cardPreviewEl.style.backgroundImage = `url('${selectedBackground}')`;
+        cardPreviewEl.style.backgroundSize = '100% 100%';
+        cardPreviewEl.style.backgroundPosition = 'center';
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
         designSvgEl.style.transform = flipped ? 'scaleX(-1)' : 'scaleX(1)';
 
@@ -165,16 +158,22 @@
       selectedColorName = color;
         if (color === "mirrorgold") {
           selectedColor = "#FFD700";
+          selectedBackground = 'assets/mirrorgold.png';
         } else if (color === "brushedgold") {
           selectedColor = "#C09B61";
+          selectedBackground = 'assets/brushedgold.png';
         } else if (color === "blackbrass") {
           selectedColor = "black";
+          selectedBackground = 'assets/matteblack.png';
         } else if (color === "black") {
           selectedColor = "black";
+          selectedBackground = 'assets/matteblack.png';
         } else if (color === "white") {
           selectedColor = "white";
+          selectedBackground = 'assets/mattewhite.png';
         } else {
           selectedColor = color;
+          selectedBackground = 'assets/matteblack.png';
         }
       document.querySelectorAll('.color-option').forEach(el => el.classList.remove('ring-4','scale-110'));
       const el = document.getElementById('color-' + color);
