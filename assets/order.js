@@ -24,12 +24,26 @@ document.getElementById('acknowledgeBtn').addEventListener('click', () => {
 orderForm.addEventListener('submit', function(e) {
   e.preventDefault();
   const formData = new FormData(orderForm);
+
+  let address = formData.get('address');
+  if (!address) {
+    const addrParts = [
+      formData.get('Street Address'),
+      formData.get('Line 2'),
+      formData.get('City'),
+      formData.get('State'),
+      formData.get('Zip Code')
+    ].filter(Boolean);
+    address = addrParts.join(', ');
+  }
+
   const body =
     `Name: ${formData.get('name')}` + '\n' +
     `Email: ${formData.get('email')}` + '\n' +
-    `Address: ${formData.get('address')}` + '\n' +
+    `Address: ${address}` + '\n' +
     `Design Code: ${formData.get('design')}` + '\n' +
     `Notes: ${formData.get('notes')}`;
+
   window.location.href = `mailto:orders@schwarzusa.us?subject=Card%20Order&body=${encodeURIComponent(body)}`;
   modal.classList.add('hidden');
 });
