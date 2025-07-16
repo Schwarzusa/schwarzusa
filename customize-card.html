@@ -100,6 +100,7 @@
         const cardPreviewEl = document.getElementById('cardPreview');
         let cardColor = selectedColor;
         let designColor;
+        let backgroundImage = selectedBackground;
         if (selectedColorName === 'blackbrass') {
           designColor = '#b08d57'; // brass
         } else {
@@ -107,9 +108,13 @@
         }
         if (inverseColors) {
           [cardColor, designColor] = [designColor, cardColor];
+          backgroundImage = selectedColorName === 'blackbrass'
+            ? 'assets/brass.png'
+            : 'assets/stainlesssteel.png';
         }
         cardPreviewEl.style.backgroundColor = '';
         cardPreviewEl.style.backgroundImage = `url('${selectedBackground}')`;
+        cardPreviewEl.style.backgroundImage = `url('${backgroundImage}')`;
         cardPreviewEl.style.backgroundSize = 'cover';
         cardPreviewEl.style.backgroundPosition = 'center';
         cardPreviewEl.style.borderColor = borderIndex === 0 ? 'transparent' : 'white';
