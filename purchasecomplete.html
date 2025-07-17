@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purchase Complete - Schwarz USA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      background-image: url('assets/bg-pattern.png');
+      background-repeat: repeat;
+      background-size: auto;
+      background-position: top left;
+    }
+    .nav-active {
+      border-bottom: 4px solid #ff4f00; /* international orange */
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+  <header class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
+    <button id="menuBtn" class="flex items-center space-x-2 md:hidden mr-auto">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <span class="text-xl font-bold">Schwarz USA</span>
+    </button>
+    <a href="index.html" class="text-xl font-bold hover:underline hidden md:block">Schwarz USA</a>
+    <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center divide-y divide-gray-700 py-2 hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bg-transparent md:divide-y-0">
+      <a href="products.html" class="block py-2 md:py-0 hover:underline">Products</a>
+      <a href="designs.html" class="block py-2 md:py-0 hover:underline">Designs</a>
+      <a href="customize-card.html" class="block py-2 md:py-0 hover:underline">Customize Card</a>
+      <a href="technologies.html" class="block py-2 md:py-0 hover:underline">Technologies</a>
+    </nav>
+  </header>
+  <main class="pt-28 px-6 min-h-screen flex flex-col items-center justify-center text-center">
+    <h1 class="text-3xl md:text-4xl font-semibold mb-4">Purchase Complete</h1>
+    <p class="mb-6 max-w-lg">Your purchase has been completed. Expect more information in your email within 3 business days. If you have any questions contact <a href="mailto:contact@schwarzusa.us" class="underline text-[#d4af37]">contact@schwarzusa.us</a>. To edit your order, email <a href="mailto:orders@schwarzusa.us" class="underline text-[#d4af37]">orders@schwarzusa.us</a>.</p>
+    <a href="index.html" class="bg-[#d4af37] hover:bg-[#e0c94a] text-black px-6 py-2 rounded-full font-semibold transition">Return to Main Site</a>
+  </main>
+  <footer class="text-sm text-gray-500 text-center p-4">
+    &copy; <span id="year"></span> Schwarz USA. All rights reserved.
+  </footer>
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      document.getElementById('navMenu').classList.toggle('hidden');
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
