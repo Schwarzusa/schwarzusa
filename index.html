@@ -3,58 +3,529 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Schwarz USA</title>
+    <title>Schwarz USA - Card Engraving Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
         background-color: #1a1a1a;
-        background-image: url('assets/bg-pattern.png'); /* Make sure this matches your uploaded file */
+        background-image: url("assets/bg-pattern.png");
         background-repeat: repeat;
         background-size: auto;
         background-position: top left;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        min-width: 100vw;
+      }
+
+      .floating-card {
+        position: fixed;
+        top: 50%;
+        right: 80px;
+        transform: translateY(-50%);
+        z-index: 10;
+        transition: all 0.8s ease-in-out;
+      }
+
+      .section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        position: relative;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        box-sizing: border-box;
+        width: 100vw;
+        margin: 0;
+        min-width: 100vw;
+      }
+
+      .content-left {
+        flex: 0 1 auto;
+        padding-left: 10%;
+        padding-right: 30%;
+        z-index: 5;
+        max-width: 70%;
+      }
+
+      .card-image {
+        width: 300px;
+        height: 200px;
+        object-fit: contain;
+        transition: all 0.8s ease-in-out;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+      }
+
+      .section-indicator {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+      }
+
+      .indicator-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(212, 175, 55, 0.3);
+        margin: 8px 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .indicator-dot.active {
+        background: #d4af37;
+        transform: scale(1.2);
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .scroll-hint {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+        color: #d4af37;
+        font-size: 14px;
+        opacity: 0.7;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        40% {
+          transform: translateX(-50%) translateY(-10px);
+        }
+        60% {
+          transform: translateX(-50%) translateY(-5px);
+        }
+      }
+
+      .scroll-hint.hidden {
+        display: none;
       }
     </style>
   </head>
   <body class="text-white font-sans">
-    <header class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50">
-      <button id="menuBtn" class="flex items-center space-x-2 md:hidden mr-auto">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    <!-- Navigation -->
+    <header
+      class="relative w-full bg-[#1a1a1a] bg-opacity-90 text-sm px-6 py-4 flex items-center fixed top-0 left-0 right-0 z-50"
+    >
+      <button
+        id="menuBtn"
+        class="flex items-center space-x-2 md:hidden mr-auto"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
         <span class="text-xl font-bold">Schwarz USA</span>
       </button>
-      <a href="index.html" class="text-xl font-bold hover:underline hidden md:block">Schwarz USA</a>
-      <nav id="navMenu" class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center divide-y divide-gray-700 py-2 hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bg-transparent md:divide-y-0">
-        <a href="products.html" class="block py-2 md:py-0 hover:underline">Products</a>
-        <a href="designs.html" class="block py-2 md:py-0 hover:underline">Designs</a>
-        <a href="customize-card.html" class="block py-2 md:py-0 hover:underline">Customize Card</a>
-        <a href="technologies.html" class="block py-2 md:py-0 hover:underline">Technologies</a>
+      <a
+        href="index.html"
+        class="text-xl font-bold hover:underline hidden md:block"
+        >Schwarz USA</a
+      >
+      <nav
+        id="navMenu"
+        class="absolute left-0 right-0 top-full bg-[#1a1a1a] bg-opacity-90 text-center divide-y divide-gray-700 py-2 hidden flex-col space-y-2 md:flex md:flex-row md:space-x-6 md:space-y-0 md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bg-transparent md:divide-y-0"
+      >
+        <a href="products.html" class="block py-2 md:py-0 hover:underline"
+          >Products</a
+        >
+        <a href="designs.html" class="block py-2 md:py-0 hover:underline"
+          >Designs</a
+        >
+        <a href="customize-card.html" class="block py-2 md:py-0 hover:underline"
+          >Customize Card</a
+        >
+        <a href="technologies.html" class="block py-2 md:py-0 hover:underline"
+          >Technologies</a
+        >
       </nav>
     </header>
-    <main class="pt-32 pb-20 px-6 text-center flex flex-col items-center min-h-screen justify-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6">Upgrade Your Old Plastic Debit/Credit Cards.<br> Choose from our premade cards, or design one yourself.<br> If you have your own design or want us to make a fully custom design for you, contact us at contact@schwarzusa.us</h1>
-      <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-        <a href="products.html" class="bg-[#e5e4e2] text-black px-6 py-3 rounded-full font-semibold hover:bg-[#f2f2f2] transition">Pre-Made Designs</a>
-        <a href="customize-card.html" class="border border-[#d4af37] text-[#d4af37] px-6 py-3 rounded-full font-semibold hover:bg-[#d4af37] hover:text-black transition">Design Your Card</a>
+
+    <!-- Scroll Container -->
+    <div class="container" id="scrollContainer">
+      <!-- Floating Card -->
+      <div class="floating-card">
+        <img
+          id="floatingCardImage"
+          src="assets/Placeholder_card.png"
+          alt="Card Design"
+          class="card-image"
+        />
       </div>
-    </main>
-    <footer class="text-sm text-gray-500 text-center p-4">
-      &copy; <span id="year"></span> Schwarz USA. All rights reserved.
-</footer>
-<script>
-  document.addEventListener('keydown', function(e) {
-    const tag = e.target.tagName.toLowerCase();
-    if (e.key === 'Enter' && tag !== 'input' && tag !== 'textarea') {
-      window.location.href = 'home.html';
-    }
-  });
-  document.getElementById('menuBtn').addEventListener('click', function() {
-    document.getElementById('navMenu').classList.toggle('hidden');
-  });
-</script>
+
+      <!-- Section Indicators -->
+      <div class="section-indicator">
+        <div class="indicator-dot active" data-section="0"></div>
+        <div class="indicator-dot" data-section="1"></div>
+        <div class="indicator-dot" data-section="2"></div>
+        <div class="indicator-dot" data-section="3"></div>
+        <div class="indicator-dot" data-section="4"></div>
+      </div>
+
+      <!-- Scroll Hint -->
+      <div class="scroll-hint" id="scrollHint">
+        <svg
+          class="w-6 h-6 mx-auto mb-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+        Scroll to explore
+      </div>
+
+      <!-- Hero Section -->
+      <section class="section" id="section-0">
+        <div class="content-left fade-in">
+          <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            Engrave Your Card
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+            Transform your ordinary plastic card into a personalized work of
+            art. Choose from our premium materials and designs, or create
+            something uniquely yours.
+          </p>
+          <div
+            class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4"
+          >
+            <a
+              href="customize-card.html"
+              class="bg-[#d4af37] text-black px-8 py-4 rounded-full font-semibold hover:bg-[#b8941f] transition text-center"
+            >
+              Start Designing
+            </a>
+            <a
+              href="products.html"
+              class="border border-[#d4af37] text-[#d4af37] px-8 py-4 rounded-full font-semibold hover:bg-[#d4af37] hover:text-black transition text-center"
+            >
+              View Designs
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom Design Section -->
+      <section class="section" id="section-1">
+        <div class="content-left fade-in">
+          <h2 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            Custom Design
+          </h2>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+            Bring your vision to life with our custom design service. Upload
+            your own artwork, choose your preferred material, and we'll create a
+            card that's uniquely yours.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-3 h-3 bg-[#d4af37] rounded-full"></div>
+              <span class="text-lg">Upload your own artwork</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="w-3 h-3 bg-[#d4af37] rounded-full"></div>
+              <span class="text-lg">Choose from premium materials</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="w-3 h-3 bg-[#d4af37] rounded-full"></div>
+              <span class="text-lg">Professional engraving quality</span>
+            </div>
+          </div>
+          <a
+            href="customize-card.html"
+            class="inline-block mt-8 bg-[#d4af37] text-black px-8 py-4 rounded-full font-semibold hover:bg-[#b8941f] transition"
+          >
+            Create Custom Design
+          </a>
+        </div>
+      </section>
+
+      <!-- Preset Designs Section -->
+      <section class="section" id="section-2">
+        <div class="content-left fade-in">
+          <h2 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            Preset Designs
+          </h2>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+            Choose from our curated collection of premium designs. From elegant
+            patterns to bold statements, find the perfect design that matches
+            your style.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-[#2a2a2a] p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Classic Patterns</h3>
+              <p class="text-gray-400">Timeless elegance</p>
+            </div>
+            <div class="bg-[#2a2a2a] p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Modern Geometric</h3>
+              <p class="text-gray-400">Contemporary style</p>
+            </div>
+            <div class="bg-[#2a2a2a] p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Artistic Themes</h3>
+              <p class="text-gray-400">Creative expressions</p>
+            </div>
+          </div>
+          <a
+            href="products.html"
+            class="inline-block bg-[#d4af37] text-black px-8 py-4 rounded-full font-semibold hover:bg-[#b8941f] transition"
+          >
+            Browse Designs
+          </a>
+        </div>
+      </section>
+
+      <!-- Materials Section -->
+      <section class="section" id="section-3">
+        <div class="content-left fade-in">
+          <h2 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            Premium Materials
+          </h2>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+            Experience luxury with our selection of premium materials. From
+            brushed gold to matte black, each material offers a unique feel and
+            appearance.
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="text-center">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg mx-auto mb-2"
+              ></div>
+              <span class="text-sm">Brushed Gold</span>
+            </div>
+            <div class="text-center">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-lg mx-auto mb-2"
+              ></div>
+              <span class="text-sm">Matte Black</span>
+            </div>
+            <div class="text-center">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-gray-200 to-white rounded-lg mx-auto mb-2"
+              ></div>
+              <span class="text-sm">Matte White</span>
+            </div>
+            <div class="text-center">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-lg mx-auto mb-2"
+              ></div>
+              <span class="text-sm">Mirror Gold</span>
+            </div>
+          </div>
+          <a
+            href="technologies.html"
+            class="inline-block bg-[#d4af37] text-black px-8 py-4 rounded-full font-semibold hover:bg-[#b8941f] transition"
+          >
+            Learn More
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer Section -->
+      <section class="section" id="section-4">
+        <div class="content-left fade-in">
+          <div class="text-center w-full">
+            <p class="text-sm text-gray-500">
+              &copy; <span id="year"></span> Schwarz USA. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <script>
+      // Mobile menu toggle
+      document.getElementById("menuBtn").addEventListener("click", function () {
+        document.getElementById("navMenu").classList.toggle("hidden");
+      });
+
+      // Update year
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Card images for different sections
+      const cardImages = [
+        "assets/Placeholder_card.png",
+        "assets/Test Card.png",
+        "assets/Flag (Black-Brass).png",
+        "assets/mirrorgold.png",
+        "assets/Placeholder_card.png", // Footer section uses default card
+      ];
+
+      // Section titles and content
+      const sections = [
+        {
+          title: "Engrave Your Card",
+          subtitle:
+            "Transform your ordinary plastic card into a personalized work of art.",
+        },
+        {
+          title: "Custom Design",
+          subtitle: "Bring your vision to life with our custom design service.",
+        },
+        {
+          title: "Preset Designs",
+          subtitle: "Choose from our curated collection of premium designs.",
+        },
+        {
+          title: "Premium Materials",
+          subtitle:
+            "Experience luxury with our selection of premium materials.",
+        },
+        { title: "Footer", subtitle: "" },
+      ];
+
+      let currentSection = 0;
+      const sections_elements = document.querySelectorAll(".section");
+      const indicatorDots = document.querySelectorAll(".indicator-dot");
+      const floatingCardImage = document.getElementById("floatingCardImage");
+      const scrollContainer = document.getElementById("scrollContainer");
+      const scrollHint = document.getElementById("scrollHint");
+
+      // Intersection Observer for fade-in animations
+      const observerOptions = {
+        threshold: 0.5,
+        rootMargin: "0px 0px -100px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Update active section based on scroll
+      function updateActiveSection() {
+        const scrollPosition =
+          scrollContainer.scrollTop + scrollContainer.clientHeight / 2;
+
+        sections_elements.forEach((section, index) => {
+          const sectionTop = section.offsetTop;
+          const sectionBottom = sectionTop + section.offsetHeight;
+
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            if (currentSection !== index) {
+              currentSection = index;
+              updateCardImage();
+              updateIndicators();
+              updateScrollHint();
+            }
+          }
+        });
+      }
+
+      // Update card image based on current section
+      function updateCardImage() {
+        floatingCardImage.style.opacity = "0";
+        setTimeout(() => {
+          floatingCardImage.src = cardImages[currentSection];
+          floatingCardImage.style.opacity = "1";
+        }, 400);
+      }
+
+      // Update indicator dots
+      function updateIndicators() {
+        indicatorDots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === currentSection);
+        });
+      }
+
+      // Update scroll hint visibility
+      function updateScrollHint() {
+        if (currentSection === sections_elements.length - 1) {
+          scrollHint.classList.add("hidden");
+        } else {
+          scrollHint.classList.remove("hidden");
+        }
+      }
+
+      // Click handlers for indicator dots
+      indicatorDots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          sections_elements[index].scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown" || e.key === "PageDown") {
+          e.preventDefault();
+          if (currentSection < sections_elements.length - 1) {
+            sections_elements[currentSection + 1].scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+        } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+          e.preventDefault();
+          if (currentSection > 0) {
+            sections_elements[currentSection - 1].scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+        }
+      });
+
+      // Scroll event listener
+      scrollContainer.addEventListener("scroll", updateActiveSection);
+
+      // Initialize
+      updateActiveSection();
+      updateScrollHint();
     </script>
   </body>
 </html>
