@@ -18,9 +18,31 @@
 				class="h-20 mb-3"
 				style="max-width: 260px; width: auto"
 			/>
+
+			<!-- Mobile Menu Button -->
+			<button
+				id="mobileMenuBtn"
+				class="md:hidden mb-3 p-2 rounded-lg hover:bg-gray-100 transition"
+			>
+				<svg
+					class="w-6 h-6 text-[#181A20]"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 6h16M4 12h16M4 18h16"
+					></path>
+				</svg>
+			</button>
+
 			<nav class="w-full flex justify-center">
 				<ul
-					class="flex flex-row space-x-10 text-lg font-semibold tracking-wide"
+					id="navMenu"
+					class="hidden md:flex flex-row space-x-10 text-lg font-semibold tracking-wide"
 				>
 					<li><a href="products.html" class="nav-link">Products</a></li>
 					<li><a href="designs.html" class="nav-link">Designs</a></li>
@@ -29,6 +51,20 @@
 					</li>
 					<li><a href="technologies.html" class="nav-link">Technologies</a></li>
 				</ul>
+
+				<!-- Mobile Menu -->
+				<div id="mobileNav" class="hidden w-full md:hidden">
+					<div class="flex flex-col space-y-3 py-3 text-center">
+						<a href="products.html" class="nav-link text-lg">Products</a>
+						<a href="designs.html" class="nav-link text-lg">Designs</a>
+						<a href="customize-card.html" class="nav-link text-lg"
+							>Customize Card</a
+						>
+						<a href="technologies.html" class="nav-link text-lg"
+							>Technologies</a
+						>
+					</div>
+				</div>
 			</nav>
 		</header>
 
@@ -102,6 +138,14 @@
 							</a>
 						</div>
 					</div>
+					<!-- Mobile Card Display -->
+					<div class="mobile-card md:hidden">
+						<img
+							src="assets/Placeholder_card.png"
+							alt="Card Design"
+							class="card-image"
+						/>
+					</div>
 				</div>
 			</section>
 
@@ -145,6 +189,14 @@
 						Create Custom Design
 					</a>
 				</div>
+				<!-- Mobile Card Display -->
+				<div class="mobile-card md:hidden">
+					<img
+						src="assets/Test Card.png"
+						alt="Card Design"
+						class="card-image"
+					/>
+				</div>
 			</section>
 
 			<!-- Preset Designs Section -->
@@ -166,6 +218,14 @@
 					>
 						Browse Designs
 					</a>
+				</div>
+				<!-- Mobile Card Display -->
+				<div class="mobile-card md:hidden">
+					<img
+						src="assets/Flag (Black-Brass).png"
+						alt="Card Design"
+						class="card-image"
+					/>
 				</div>
 			</section>
 
@@ -189,6 +249,14 @@
 						Learn More
 					</a>
 				</div>
+				<!-- Mobile Card Display -->
+				<div class="mobile-card md:hidden">
+					<img
+						src="assets/mirrorgold.png"
+						alt="Card Design"
+						class="card-image"
+					/>
+				</div>
 			</section>
 
 			<!-- Footer Section -->
@@ -204,6 +272,14 @@
 		</div>
 
 		<script>
+			// Mobile menu toggle
+			document
+				.getElementById('mobileMenuBtn')
+				.addEventListener('click', function () {
+					const mobileNav = document.getElementById('mobileNav');
+					mobileNav.classList.toggle('hidden');
+				});
+
 			// Update year
 			document.getElementById('year').textContent = new Date().getFullYear();
 

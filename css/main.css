@@ -195,6 +195,11 @@ nav .nav-link:focus::after {
 	max-width: none;
 }
 
+/* Hide mobile cards on desktop by default */
+.mobile-card {
+	display: none;
+}
+
 @media (min-width: 1200px) {
 	.hero-content {
 		padding-left: 8%;
@@ -223,93 +228,282 @@ nav .nav-link:focus::after {
 }
 
 @media (max-width: 899px) {
-	.hero-content {
-		padding-left: 5%;
-		padding-right: 5%;
-		text-align: center;
+	/* Mobile-first approach like Apple */
+	body {
+		overflow-x: hidden;
 	}
 
-	.hero-text {
-		max-width: 100%;
-		margin: 0 auto;
-	}
-
-	.floating-card {
-		position: relative;
-		right: auto;
-		top: auto;
-		transform: none;
-		display: flex;
-		justify-content: center;
-		margin-top: 2rem;
-	}
-
-	.card-image {
-		width: 300px;
-		height: 190px;
-	}
-
-	.section {
-		flex-direction: column;
-		justify-content: center;
-		padding: 2rem 0;
-	}
-}
-
-@media (max-width: 700px) {
-	.hero-content {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
-	}
-
-	.hero-text h1 {
-		font-size: 2.5rem;
-		line-height: 1.2;
-	}
-
-	.hero-text p {
-		font-size: 1.1rem;
-		line-height: 1.5;
-	}
-
-	.card-image {
-		width: 260px;
-		height: 165px;
-	}
-}
-
-@media (max-width: 500px) {
-	.hero-text h1 {
-		font-size: 2rem;
-	}
-
-	.hero-text p {
-		font-size: 1rem;
-	}
-
-	.card-image {
-		width: 220px;
-		height: 140px;
+	header {
+		padding-top: 0.75rem;
+		padding-bottom: 0.5rem;
 	}
 
 	header img {
 		height: 48px;
-		max-width: 150px;
+		max-width: 160px;
+		margin-bottom: 0.25rem;
 	}
 
-	nav ul {
-		gap: 1.2rem;
+	#mobileMenuBtn {
+		margin-bottom: 0.5rem;
+		padding: 0.25rem;
+	}
+
+	#mobileNav {
+		transition: all 0.3s ease;
+	}
+
+	#mobileNav.hidden {
+		height: 0;
+		overflow: hidden;
+		padding: 0;
+		margin: 0;
+	}
+
+	.container {
+		overflow-y: auto;
+		scroll-snap-type: none;
+		-webkit-overflow-scrolling: touch;
+		position: relative;
+		top: 80px; /* Much smaller offset */
+	}
+
+	.floating-card {
+		display: none;
+	}
+
+	.section-indicator {
+		display: none;
+	}
+
+	.section {
+		height: auto;
+		min-height: 100vh;
+		padding: 2rem 0;
+		scroll-snap-align: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	/* Remove the first section margin since we're using container positioning */
+	.section:first-of-type {
+		margin-top: 0;
+		min-height: 100vh;
+	}
+
+	/* Hero section specific */
+	.hero-content {
+		width: 100%;
+		max-width: 100%;
+		padding: 0;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.hero-text {
+		width: 100%;
+		max-width: 90%;
+		padding: 0 1rem;
+		margin-bottom: 2rem;
+		order: 2; /* Text comes after card */
+	}
+
+	.mobile-card {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-bottom: 2rem;
+		order: 1; /* Card comes first */
+	}
+
+	.mobile-card .card-image {
+		width: 280px;
+		height: 180px;
+		filter: drop-shadow(0 8px 25px rgba(24, 26, 32, 0.15));
+		border-radius: 12px;
+	}
+
+	/* Other sections */
+	.content-left {
+		width: 100%;
+		max-width: 90%;
+		padding: 0 1rem;
+		text-align: center;
+		margin-bottom: 2rem;
+		order: 2;
+	}
+
+	/* Ensure text flows properly */
+	.hero-text h1,
+	.content-left h2 {
+		width: 100%;
+		max-width: 100%;
+		word-wrap: break-word;
+		hyphens: none;
+	}
+
+	.hero-text p,
+	.content-left p {
+		width: 100%;
+		max-width: 100%;
+		word-wrap: break-word;
+		hyphens: none;
+		white-space: normal;
+	}
+
+	.scroll-hint {
+		position: fixed;
+		bottom: 30px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 15;
+		background: rgba(245, 245, 247, 0.9);
+		backdrop-filter: blur(10px);
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		border: 1px solid rgba(212, 175, 55, 0.2);
+	}
+}
+
+@media (max-width: 700px) {
+	header {
+		padding-top: 0.5rem;
+		padding-bottom: 0.25rem;
+	}
+
+	header img {
+		height: 42px;
+		max-width: 140px;
+		margin-bottom: 0.125rem;
+	}
+
+	#mobileMenuBtn {
+		margin-bottom: 0.25rem;
+		padding: 0.125rem;
+	}
+
+	#mobileNav {
+		transition: all 0.3s ease;
+	}
+
+	#mobileNav.hidden {
+		height: 0;
+		overflow: hidden;
+		padding: 0;
+		margin: 0;
+	}
+
+	.container {
+		top: 70px;
+	}
+
+	.section:first-of-type {
+		margin-top: 0;
+		min-height: 100vh;
+	}
+
+	.section {
+		min-height: 100vh;
+		padding: 1.5rem 0;
+	}
+
+	.hero-text,
+	.content-left {
+		max-width: 95%;
+		padding: 0 0.5rem;
+	}
+
+	.hero-text h1 {
+		font-size: 2.5rem;
+		line-height: 1.1;
+		margin-bottom: 1.5rem;
+	}
+
+	.hero-text p,
+	.content-left p {
+		font-size: 1.1rem;
+		line-height: 1.5;
+		margin-bottom: 2rem;
+	}
+
+	.mobile-card .card-image {
+		width: 250px;
+		height: 160px;
+	}
+}
+
+@media (max-width: 500px) {
+	header {
+		padding-top: 0.25rem;
+		padding-bottom: 0.125rem;
+	}
+
+	header img {
+		height: 36px;
+		max-width: 120px;
+		margin-bottom: 0.125rem;
+	}
+
+	#mobileMenuBtn {
+		margin-bottom: 0.125rem;
+		padding: 0.125rem;
+	}
+
+	#mobileNav {
+		transition: all 0.3s ease;
+	}
+
+	#mobileNav.hidden {
+		height: 0;
+		overflow: hidden;
+		padding: 0;
+		margin: 0;
+	}
+
+	.container {
+		top: 60px;
+	}
+
+	.section:first-of-type {
+		margin-top: 0;
+		min-height: 100vh;
+	}
+
+	.section {
+		min-height: 100vh;
+		padding: 1rem 0;
+	}
+
+	.hero-text,
+	.content-left {
+		max-width: 100%;
+		padding: 0 0.25rem;
+	}
+
+	.hero-text h1 {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.hero-text p,
+	.content-left p {
+		font-size: 1rem;
+		line-height: 1.4;
+		margin-bottom: 1.5rem;
+	}
+
+	.mobile-card .card-image {
+		width: 220px;
+		height: 140px;
 	}
 
 	nav .nav-link {
-		font-size: 1rem;
-		padding: 0.18rem 0.3rem;
-	}
-
-	.content-left {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
-		max-width: 100%;
+		font-size: 0.9rem;
+		padding: 0.5rem 0;
 	}
 }
 
