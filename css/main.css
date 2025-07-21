@@ -1,0 +1,131 @@
+body {
+	background-color: #1a1a1a;
+	background-image: url('../assets/bg-pattern.png');
+	background-repeat: repeat;
+	background-size: auto;
+	background-position: top left;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	width: 100vw;
+}
+
+.container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow-y: auto;
+	scroll-snap-type: y mandatory;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	min-width: 100vw;
+}
+
+.floating-card {
+	position: fixed;
+	top: 50%;
+	right: 80px;
+	transform: translateY(-50%);
+	z-index: 10;
+	transition: all 0.8s ease-in-out;
+}
+
+.section {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	padding: 0;
+	position: relative;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+	box-sizing: border-box;
+	width: 100vw;
+	margin: 0;
+	min-width: 100vw;
+}
+
+.content-left {
+	flex: 0 1 auto;
+	padding-left: 10%;
+	padding-right: 30%;
+	z-index: 5;
+	max-width: 70%;
+}
+
+.card-image {
+	width: 300px;
+	height: 200px;
+	object-fit: contain;
+	transition: all 0.8s ease-in-out;
+	filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+.section-indicator {
+	position: fixed;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 20;
+}
+
+.indicator-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: rgba(212, 175, 55, 0.3);
+	margin: 8px 0;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.indicator-dot.active {
+	background: #d4af37;
+	transform: scale(1.2);
+}
+
+.fade-in {
+	opacity: 0;
+	transform: translateY(30px);
+	transition: all 0.8s ease;
+}
+
+.fade-in.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.scroll-hint {
+	position: fixed;
+	bottom: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 15;
+	color: #d4af37;
+	font-size: 14px;
+	opacity: 0.7;
+	animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+	0%,
+	20%,
+	50%,
+	80%,
+	100% {
+		transform: translateX(-50%) translateY(0);
+	}
+	40% {
+		transform: translateX(-50%) translateY(-10px);
+	}
+	60% {
+		transform: translateX(-50%) translateY(-5px);
+	}
+}
+
+.scroll-hint.hidden {
+	display: none;
+}
